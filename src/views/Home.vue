@@ -1,18 +1,48 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container class="fill-height">
+    <v-row class="fill-height">
+      <v-col 
+        v-for="level in levels" 
+        :key=level
+        class="d-flex fill-height justify-center  level-column py-5">
+          <div class="d-flex align-center justify-center levelSelector">
+            <router-link :to="makeRoute(level)">
+              {{level}}
+            </router-link>
+          </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      levels: []
+    }
+  },
+  methods:{
+    makeRoute(id){
+      return "/level/" + id
+    }
+  },
+  created(){
+    this.levels = [1, 2, 3, 4, 5]
   }
 }
 </script>
+
+<style scoped>
+  .levelSelector{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: aquamarine;
+  }
+  .level-column:nth-child(odd){
+    align-items: flex-end
+  }
+</style>
