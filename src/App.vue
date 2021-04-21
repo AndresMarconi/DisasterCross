@@ -28,7 +28,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Exit</span>
+        <span class="mr-2">Salir</span>
       </v-btn>
     </v-app-bar>
 
