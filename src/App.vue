@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -32,14 +28,14 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Salir</span>
+        <span class="mr-2">Exit</span>
       </v-btn>
     </v-app-bar>
 
     <v-main>
       <v-row class="d-flex justify-center py-3">
         <h1>
-          {{$store.state.page}}
+          {{ $store.state.page }}
         </h1>
       </v-row>
       <v-container class="fill-height">
@@ -54,13 +50,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
 
-  components: {
-
-  },
+  components: {},
 
   data: () => ({
     //
