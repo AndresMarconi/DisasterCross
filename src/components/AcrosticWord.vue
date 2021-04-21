@@ -5,19 +5,23 @@
         :key=caracter>
         <v-text-field
           v-if="caracter == coords.center" 
-          class="inp-box"
+          :class="extraClass"
+          v-model="caracters[caracter - coords.start]"
+          v-on:blur="handleBlur(caracter - coords.start)"
           v-on:focus="focused()"
-          :ref="'car' + caracter"
-          v-on:keyup="changeFocus(caracter)"
+          v-on:change="changeFocus(caracter - coords.start)"
           solo
-          outlined/>
+          outlined
+          :disabled="winLevel"/>
         <v-text-field
           v-else-if="isInRange(caracter)" 
-          class="inp-box"
-          :ref="'car' + caracter"
+          :class="extraClass"
+          v-model="caracters[caracter - coords.start]"
+          v-on:blur="handleBlur(caracter - coords.start)"
           v-on:focus="focused()"
-          v-on:keyup="changeFocus(caracter)"
-          solo/>
+          v-on:keyup="changeFocus(caracter - coords.start)"
+          solo
+          :disabled="winLevel"/>
         <v-text-field
           class="inp-box"
           v-else 
@@ -33,7 +37,9 @@ export default {
   data(){
     return{
       caracters: [],
-      focuseOnMe: false
+      res: [],
+      extraClass: "inp-box",
+      winLevel: false
     }
   },
   props:{
@@ -49,7 +55,7 @@ export default {
   },
   created(){
     for (let i = 0; i < this.word.word.length; i++) {
-      this.caracters.push(this.word.word[i])
+      this.caracters.push("")
     }
   },
   methods:{
@@ -57,14 +63,48 @@ export default {
       this.$emit('focused')
     },
     isInRange(pos){
-      if ((pos > this.coords.start) && (pos < this.coords.start + this.word.word.length )) {
-        return true
-      } else {
-        return false
+      return (pos >= this.coords.start) && (pos < this.coords.start + this.word.word.length )
+    },
+    handleBlur(car){
+      if (this.caracters[car] != "") {
+        this.res[car] = this.caracters[car]
+        if (this.completeAnswer()) {
+          if (this.checkAnswer()) {
+            this.win()
+          } else {
+            this.lose()
+          }
+        }
       }
     },
     changeFocus(pos){
-      console.log(pos)
+      console.log(this.caracters[pos])
+    },
+    completeAnswer(){
+      return (this.res.length == this.caracters.length) && !(this.res.includes(undefined))
+    },
+    checkAnswer(){
+      let answer = true
+      for (let i = 0; i < this.word.word.length; i++) {
+        if (this.res[i] != this.word.word[i]) {
+          answer = false
+        }
+      }
+      return answer 
+    },
+    win(){
+      console.log("ganaste perro")
+      this.extraClass = "inp-box win"
+      this.winLevel = true
+    },
+    lose(){
+      console.log("perdiste perro")
+      this.extraClass = "inp-box lose"
+      for (let i = 0; i < this.caracters.length; i++) {
+        this.caracters[i] = ""
+      }
+      this.res=[]
+      setTimeout(() => this.extraClass = "inp-box", 1000)
     }
   }
 }
@@ -78,5 +118,13 @@ export default {
 
   .center-box{
     background-color: aqua;
+  }
+
+  .win{
+    background-color: green
+  }
+
+  .lose{
+    background-color: red
   }
 </style>

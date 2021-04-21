@@ -39,10 +39,10 @@ export default {
     this.levelName = this.$route.params.levelId
     this.$store.commit('SET_PAGE_TITLE', this.levelName)
     this.words= [
-      {id:1, word:"indundacion", description:"lo que paso en lp", center: 3},
-      {id:2, word:"lluvia", description:"Cae agua del cielo", center: 5},
-      {id:3, word:"guille", description:"El que dibuja pitos", center: 6},
-      {id:4, word:"desague", description:"Si se tapa cuando llueve es un quilombo", center: 3},
+      {id:1, word:"indundacion", description:"lo que paso en lp", center: 2},
+      {id:2, word:"lluvia", description:"Cae agua del cielo", center: 4},
+      {id:3, word:"guille", description:"El que dibuja pitos", center: 5},
+      {id:4, word:"desague", description:"Si se tapa cuando llueve es un quilombo", center: 2},
     ],
     this.center = 13
   },
