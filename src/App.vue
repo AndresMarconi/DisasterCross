@@ -9,6 +9,7 @@
           src="./assets/Logo.png"
           transition="scale-transition"
           width="40"
+          v-on:dblclick="goToAdmin"
         />
 
         <!-- <v-img
@@ -38,7 +39,7 @@
           {{ $store.state.page }}
         </h1>
       </v-row>
-      <v-container class="fill-height">
+      <v-container :fluid="true" class="fill-height">
         <v-row class="fill-height">
           <v-col class="fill-height">
             <router-view />
@@ -58,5 +59,10 @@ export default {
   data: () => ({
     //
   }),
+  methods:{
+    goToAdmin(){
+      this.$router.push("admin")
+    }
+  }
 };
 </script>

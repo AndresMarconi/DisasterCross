@@ -14,7 +14,13 @@ const routes = [
     path: "/level/:levelId",
     name: "Level",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Level.vue"),
+      import(/* webpackChunkName: "Level" */ "../views/Level.vue"),
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: () =>
+      import(/* webpackChunkName: "AdminPanel" */ "../views/AdminPanel.vue"),
   }
 ]
 
