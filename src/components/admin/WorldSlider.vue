@@ -101,7 +101,6 @@ export default {
     },
     async save(){
       if (this.editedIndex > -1) {
-        console.log(this.editedworld)
         await topics.doc(this.editedworld.docId) 
         .update({name: this.editedworld.name})
         .then(() => {
@@ -115,7 +114,7 @@ export default {
       } else {
         await topics.add({name: this.editedworld.name})
         .then((data) => {
-          console.log(data)
+          this.editedworld.docId = data.id
           this.worlds.push(this.editedworld);
           this.$store.commit('ACTIVE_SNACK', 'El mundo se registro correctamente')
         })
@@ -126,7 +125,7 @@ export default {
       this.close(); 
     },
     async deleteItem(item) {
-      const index = this.worlds.indexOf(item); // Se queda con el index para luego, en caso de desearlo, eliminar el producto de la tabla.
+      const index = this.worlds.indexOf(item);
       var result = confirm(`Seguro que quiere Eliminar el mundo ${item.name} ?`);
       if (result == true) {
         await topics.doc(item.docId)

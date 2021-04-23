@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { topics } from '@/firebase.js'
 
 Vue.use(Vuex)
 
@@ -20,10 +21,27 @@ export default new Vuex.Store({
       state.snackText = text
     },
     'SET_ADMIN_WORLD' (state, world) {
-      world.levels= [
+      world.levels = []
+      topics.doc(world.docId).collection("levels")
+      .get()
+      .then((querySnapshot) => {
+        console.log(querySnapshot)
+        querySnapshot.forEach((doc) => {
+          world.levels.push({
+            docId: doc.id,
+            level: doc.data().level,
+            word: doc.data().word,
+            center: doc.data().center
+          })
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      /* world.levels= [
         {level: "1", word: "word1", center: 13}, 
         {level: "2", word: "word2", center: 13}, 
-        {level: "3", word: "word3", center: 13} ]
+        {level: "3", word: "word3", center: 13} ] */
       state.currentWorldAdmin = world;
     },
     'SET_ADMIN_LEVEL' (state, level) {
