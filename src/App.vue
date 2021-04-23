@@ -6,7 +6,7 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="./assets/Logo.png"
+          src="./assets/logo.png"
           transition="scale-transition"
           width="40"
           v-on:dblclick="goToAdmin"
@@ -62,10 +62,10 @@ export default {
   data: () => ({
     //
   }),
-  methods:{
-    goToAdmin(){
-      this.$router.push("admin")
-    }
-  }
+  methods: {
+    goToAdmin() {
+      this.$router.push("admin");
+    },
+  },
 };
 </script>

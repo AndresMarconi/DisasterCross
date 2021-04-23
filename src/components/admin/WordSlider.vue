@@ -1,106 +1,192 @@
 <template>
-    <v-container class="d-flex flex-column justify-center align-center back-con">
-      <v-toolbar style="width:100%" flat class="tenloFondo">
-          <v-toolbar-title class="text--primary font-weight-large">Palabras</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog dark v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="orange" class="mb-2" v-on="on"><v-icon color="black">mdi-plus</v-icon></v-btn>
-            </template>
-            <v-card>
-              <v-card-title class="justify-space-around">
-                <span> Agregar Palabra </span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-form ref="form" v-model="valid">
-                      <v-row>
-                        <v-col cols="12" sm="12">
-                          <v-text-field v-model="editedword.word" label="Mundo" required></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-                <v-btn :disabled="!valid" color="blue darken-1" text @click="save">Cargar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      <Scroller :elementHeigth="100" :elementsSize="words.length">
-        <v-card 
-          class="my-5 py-5"
-          v-for="item in words" 
-          :key="item.level" 
-        >
-          <v-card-title>Nivel {{item.name}} </v-card-title>
+  <v-container class="d-flex flex-column justify-center align-center back-con">
+    <v-toolbar style="width: 100%" flat class="tenloFondo">
+      <v-toolbar-title class="text--primary font-weight-large"
+        >Palabras</v-toolbar-title
+      >
+      <v-divider class="mx-4" inset vertical></v-divider>
+      <v-spacer></v-spacer>
+      <v-dialog dark v-model="dialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn :disabled="!level" color="orange" class="mb-2" v-on="on"
+            ><v-icon color="black">mdi-plus</v-icon></v-btn
+          >
+        </template>
+        <v-card>
+          <v-card-title class="justify-space-around">
+            <span> Agregar Palabra </span>
+          </v-card-title>
           <v-card-text>
+            <v-container>
+              <v-form ref="form" v-model="valid">
+                <v-row>
+                  <v-col cols="12" sm="12">
+                    <v-text-field
+                      v-model="editedWord.word"
+                      label="Palabra"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="editedWord.start"
+                      label="Casilla inicial"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
           </v-card-text>
-        </v-card>  
-      </Scroller >
-    </v-container>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+            <v-btn :disabled="!valid" color="blue darken-1" text @click="save"
+              >Cargar</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-toolbar>
+    <Scroller :elementHeigth="100" :elementsSize="words.length">
+      <p v-show="!level">No hay nivel seleccionado</p>
+      <v-card class="my-5 py-5" v-for="item in words" :key="item.word">
+        <v-card-title>{{ item.word }} </v-card-title>
+        <v-card-text> empieza en {{ item.start }} </v-card-text>
+        <v-card-actions>
+          <v-icon small @click="editItem(item)" class="mr-4">mdi-pencil</v-icon>
+          <v-icon small @click="deleteItem(item)" class="mr-4"
+            >mdi-delete</v-icon
+          >
+        </v-card-actions>
+      </v-card>
+    </Scroller>
+  </v-container>
 </template>
 
 <script>
 import Scroller from "@/components/Scroller.vue";
+import { topics } from "@/firebase.js";
 export default {
-  name:"SliderWord",
-  data(){
-    return{
-      /* words: [
-        { value: 1, name: 'item 1', selected: false },
-        { value: 2, name: 'item 2', selected: false },
-        { value: 3, name: 'item 3', selected: false },
-        { value: 4, name: 'item 4', selected: true },
-        { value: 5, name: 'item 5', selected: false },
-        { value: 6, name: 'item 6', selected: false },
-        { value: 7, name: 'item 7', selected: false },
-        { value: 8, name: 'item 8', selected: false }
-      ], */
+  name: "SliderWord",
+  data() {
+    return {
       editedIndex: -1,
-      editedword: { id: -1, name: ""},
-      defaultword: { id: -1, name: ""},
+      editedWord: { id: -1, word: "", hint: "", start: 0 },
+      defaultWord: { id: -1, word: "", hint: "", start: 0 },
       valid: false,
       dialog: false,
-    }
+    };
   },
-  components:{
-    Scroller
+  components: {
+    Scroller,
   },
-  methods:{
+  methods: {
     editItem(word) {
       this.editedIndex = this.words.indexOf(word);
-      this.editedword = Object.assign({}, word);
+      this.editedWord = Object.assign({}, word);
       this.dialog = true;
     },
-    close(){
+    close() {
       this.dialog = false;
+      this.$nextTick(() => {
+        this.editedWord = Object.assign({}, this.defaultWord);
+        this.editedIndex = -1;
+      });
     },
-    async save(){
-      /* await topics.add(this.editedword)
-      .then(() => {
-        this.words.push(this.editedword);
-        this.$store.commit('ACTIVE_SNACK', 'La palabra se registro correctamente')
-      }) 
-      .catch(() => {
-        this.$store.commit('ACTIVE_SNACK', 'Se produjo un error al cargar la palabra, Intente nuevamente')
-      }); */
-      this.close(); 
-    }
-  },
-  computed:{
-    words(){
-      if (this.$store.state.currentLevelAdmin == null) {
-        return []
+    async save() {
+      if (this.editedIndex > -1) {
+        await topics
+          .doc(this.world.docId)
+          .collection("levels")
+          .doc(this.level.docId)
+          .collection("words")
+          .doc(this.editedWord.docId)
+          .update({
+            word: this.editedWord.word,
+            start: this.editedWord.start,
+          })
+          .then(() => {
+            Object.assign(this.words[this.editedIndex], this.editedWord);
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "La palabra se actualizo correctamente"
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "Se produjo un error al actualizar la palabra, Intente nuevamente"
+            );
+          });
+      } else {
+        await topics
+          .doc(this.world.docId)
+          .collection("levels")
+          .doc(this.level.docId)
+          .collection("words")
+          .add(this.editedWord)
+          .then((data) => {
+            this.editedWord.docId = data.id;
+            this.words.push(this.editedWord);
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "La palabra se registro correctamente"
+            );
+          })
+          .catch(() => {
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "Se produjo un error al cargar la palabra, Intente nuevamente"
+            );
+          });
       }
-      return this.$store.state.currentLevelAdmin.words
-    }
-  }
-}
+      this.close();
+    },
+    async deleteItem(item) {
+      const index = this.words.indexOf(item);
+      var result = confirm(
+        `Seguro que quiere Eliminar la palabra ${item.word}?`
+      );
+      if (result == true) {
+        await topics
+          .doc(this.world.docId)
+          .collection("levels")
+          .doc(this.level.docId)
+          .collection("words")
+          .doc(item.docId)
+          .delete()
+          .then(() => {
+            this.words.splice(index, 1);
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "La palabra se elimino correctamente"
+            );
+          })
+          .catch(() => {
+            this.$store.commit(
+              "ACTIVE_SNACK",
+              "Se produjo un error al eliminar la palabra, Intente nuevamente"
+            );
+          });
+      }
+    },
+  },
+  computed: {
+    words() {
+      if (this.$store.state.currentLevelAdmin == null) {
+        return [];
+      }
+      console.log(this.$store.state.currentLevelAdmin.words);
+      return this.$store.state.currentLevelAdmin.words;
+    },
+    level() {
+      return this.$store.state.currentLevelAdmin;
+    },
+    world() {
+      return this.$store.state.currentWorldAdmin;
+    },
+  },
+};
 </script>
 
 <style>
