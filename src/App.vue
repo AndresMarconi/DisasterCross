@@ -47,6 +47,9 @@
         </v-row>
       </v-container>
     </v-main>
+    <v-snackbar v-model="$store.state.snackBar" timeout="4000" top>
+      {{ $store.state.snackText }}
+    </v-snackbar>
   </v-app>
 </template>
 
