@@ -11,6 +11,15 @@
           <WordSlider />
       </v-col>
     </v-row>
+
+    <v-container v-if="words.length > 0" class="d-flex flex-column justify-center">
+      <AcrosticWord
+        v-for="word in words"
+        :key="word.id"
+        :word="word"
+        :coords="{center: center, start: calculatedCenter(word)}"
+      />
+    </v-container>
   </v-container>
 </template>
 
@@ -18,6 +27,7 @@
 import WorldSlider from "@/components/admin/WorldSlider.vue";
 import LevelSlider from "@/components/admin/LevelSlider.vue";
 import WordSlider from "@/components/admin/WordSlider.vue";
+import AcrosticWord from "@/components/AcrosticWord.vue";
 export default {
   name: 'Home',
   data() {
@@ -28,9 +38,22 @@ export default {
   components:{
     WorldSlider,
     LevelSlider,
-    WordSlider
+    WordSlider,
+    AcrosticWord
+  },
+  computed:{
+    words(){
+      if (!this.$store.state.currentLevelAdmin) {return []}
+      return this.$store.state.currentLevelAdmin.words;
+    },
+    center(){
+      return this.$store.state.currentLevelAdmin.center
+    }
   },
   methods:{
+    calculatedCenter(word) {
+      return this.center - word.center;
+    }
   },
   created(){
     this.$store.commit("SET_PAGE_TITLE", "Panel de Administrador");

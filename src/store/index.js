@@ -52,7 +52,8 @@ export default new Vuex.Store({
             level.words.push({
               docId: doc.id,
               word: doc.data().word,
-              start: doc.data().start
+              start: doc.data().start,
+              hint: doc.data().hint
             })
           })
         })

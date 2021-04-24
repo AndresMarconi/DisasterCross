@@ -176,9 +176,7 @@ export default {
   },
   computed: {
     words() {
-      if (this.$store.state.currentLevelAdmin == null) {
-        return [];
-      }
+      if (this.$store.state.currentLevelAdmin == null) { return [] }
       return this.$store.state.currentLevelAdmin.words;
     },
     level() {
