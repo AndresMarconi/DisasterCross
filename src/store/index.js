@@ -25,7 +25,6 @@ export default new Vuex.Store({
       await topics.doc(world.docId).collection("levels")
         .get()
         .then((querySnapshot) => {
-          console.log(querySnapshot)
           querySnapshot.forEach((doc) => {
             world.levels.push({
               docId: doc.id,
@@ -41,6 +40,10 @@ export default new Vuex.Store({
       state.currentWorldAdmin = world;
     },
     async 'SET_ADMIN_LEVEL'(state, level) {
+      if (!level){
+        state.currentLevelAdmin = null
+        return false
+      }  
       level.words = []
       await topics.doc(state.currentWorldAdmin.docId).collection("levels").doc(level.docId).collection("words")
         .get()

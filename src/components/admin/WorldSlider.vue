@@ -177,6 +177,7 @@ export default {
     },
     selectWorld(world) {
       this.$store.commit("SET_ADMIN_WORLD", world);
+      this.$store.commit("SET_ADMIN_LEVEL", null);
     },
   },
 };
