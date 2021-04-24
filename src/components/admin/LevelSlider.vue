@@ -98,6 +98,7 @@ export default {
         })
         .then(() => {
           Object.assign(this.levels[this.editedIndex], this.editedLevel);
+          
           this.$store.commit('ACTIVE_SNACK', 'El nivel se actualizo correctamente')
         })
         .catch((error) => {
