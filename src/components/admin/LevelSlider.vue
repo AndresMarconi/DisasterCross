@@ -41,6 +41,9 @@
         <p v-show="!world">
           No hay mundo seleccionado
         </p>
+        <p v-show="world && world.levels.length <= 0">
+          Mundo sin niveles
+        </p>
         <v-card 
           class="my-5 py-5"
           v-for="item in levels" 
@@ -130,6 +133,7 @@ export default {
       }
     },
     selectLevel(level){
+      if ((this.$store.state.currentLevelAdmin)&&(this.$store.state.currentLevelAdmin.level == level.level)) return
       this.$store.commit("SET_ADMIN_LEVEL", level)
     }
   },

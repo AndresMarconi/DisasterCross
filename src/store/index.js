@@ -43,7 +43,7 @@ export default new Vuex.Store({
       if (!level){
         state.currentLevelAdmin = null
         return false
-      }  
+      }
       level.words = []
       await topics.doc(state.currentWorldAdmin.docId).collection("levels").doc(level.docId).collection("words")
         .get()

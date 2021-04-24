@@ -31,6 +31,11 @@
                       label="Casilla inicial"
                       required
                     ></v-text-field>
+                    <v-text-field
+                      v-model="editedWord.hint"
+                      label="Pista"
+                      required
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-form>
@@ -39,23 +44,20 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-            <v-btn :disabled="!valid" color="blue darken-1" text @click="save"
-              >Cargar</v-btn
-            >
+            <v-btn :disabled="!valid" color="blue darken-1" text @click="save">Cargar</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-toolbar>
     <Scroller :elementHeigth="100" :elementsSize="words.length">
       <p v-show="!level">No hay nivel seleccionado</p>
+      <p v-show="level && level.words.length <= 0"> Nivel sin palabras </p>
       <v-card class="my-5 py-5" v-for="item in words" :key="item.word">
         <v-card-title>{{ item.word }} </v-card-title>
         <v-card-text> empieza en {{ item.start }} </v-card-text>
         <v-card-actions>
           <v-icon small @click="editItem(item)" class="mr-4">mdi-pencil</v-icon>
-          <v-icon small @click="deleteItem(item)" class="mr-4"
-            >mdi-delete</v-icon
-          >
+          <v-icon small @click="deleteItem(item)" class="mr-4">mdi-delete</v-icon>
         </v-card-actions>
       </v-card>
     </Scroller>
@@ -70,8 +72,8 @@ export default {
   data() {
     return {
       editedIndex: -1,
-      editedWord: { id: -1, word: "", hint: "", start: 0 },
-      defaultWord: { id: -1, word: "", hint: "", start: 0 },
+      editedWord: { word: "", hint: "", start: 0 },
+      defaultWord: { word: "", hint: "", start: 0 },
       valid: false,
       dialog: false,
     };
@@ -103,6 +105,7 @@ export default {
           .update({
             word: this.editedWord.word,
             start: this.editedWord.start,
+            hint: this.editedWord.hint
           })
           .then(() => {
             Object.assign(this.words[this.editedIndex], this.editedWord);
@@ -176,7 +179,6 @@ export default {
       if (this.$store.state.currentLevelAdmin == null) {
         return [];
       }
-      console.log(this.$store.state.currentLevelAdmin.words);
       return this.$store.state.currentLevelAdmin.words;
     },
     level() {

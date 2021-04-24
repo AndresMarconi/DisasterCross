@@ -176,9 +176,10 @@ export default {
       }
     },
     selectWorld(world) {
+      if ((this.$store.state.currentWorldAdmin)&&(this.$store.state.currentWorldAdmin.name == world.name)) return
       this.$store.commit("SET_ADMIN_WORLD", world);
-      this.$store.commit("SET_ADMIN_LEVEL", null);
-    },
+      this.$store.commit("SET_ADMIN_LEVEL", null); 
+    }
   },
 };
 </script>
