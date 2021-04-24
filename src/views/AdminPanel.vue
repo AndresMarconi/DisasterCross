@@ -32,7 +32,6 @@ export default {
   name: 'Home',
   data() {
     return {
-      mundos: []
     }
   },
   components:{
