@@ -1,16 +1,16 @@
 <template>
   <v-container class="d-flex flex-column justify-center align-center back-con">
     <v-toolbar style="width: 100%" flat class="tenloFondo">
-      <v-toolbar-title class="text--primary font-weight-large"
-        >Palabras</v-toolbar-title
-      >
+      <v-toolbar-title class="text--primary font-weight-large">
+        Palabras
+        </v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-dialog dark v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn :disabled="!level" color="orange" class="mb-2" v-on="on"
-            ><v-icon color="black">mdi-plus</v-icon></v-btn
-          >
+          <v-btn :disabled="!level" color="orange" class="mb-2" v-on="on">
+            <v-icon color="black">mdi-plus</v-icon>
+          </v-btn>
         </template>
         <v-card>
           <v-card-title class="justify-space-around">
@@ -22,13 +22,18 @@
                 <v-row>
                   <v-col cols="12" sm="12">
                     <v-text-field
+                      v-model="editedWord.index"
+                      label="Indice"
+                      required
+                    ></v-text-field>
+                    <v-text-field
                       v-model="editedWord.word"
                       label="Palabra"
                       required
                     ></v-text-field>
                     <v-text-field
-                      v-model="editedWord.start"
-                      label="Casilla inicial"
+                      v-model="editedWord.center"
+                      label="Casilla central"
                       required
                     ></v-text-field>
                     <v-text-field
@@ -54,7 +59,7 @@
       <p v-show="level && level.words.length <= 0"> Nivel sin palabras </p>
       <v-card class="my-5 py-5" v-for="item in words" :key="item.word">
         <v-card-title>{{ item.word }} </v-card-title>
-        <v-card-text> empieza en {{ item.start }} </v-card-text>
+        <v-card-text> Centrada en {{ item.center }} </v-card-text>
         <v-card-actions>
           <v-icon small @click="editItem(item)" class="mr-4">mdi-pencil</v-icon>
           <v-icon small @click="deleteItem(item)" class="mr-4">mdi-delete</v-icon>
@@ -72,8 +77,8 @@ export default {
   data() {
     return {
       editedIndex: -1,
-      editedWord: { word: "", hint: "", start: 0 },
-      defaultWord: { word: "", hint: "", start: 0 },
+      editedWord: {index: 0, word: "", hint: "", center: 0 },
+      defaultWord: {index: 0, word: "", hint: "", center: 0 },
       valid: false,
       dialog: false,
     };
@@ -96,51 +101,31 @@ export default {
     },
     async save() {
       if (this.editedIndex > -1) {
-        await topics
-          .doc(this.world.docId)
-          .collection("levels")
-          .doc(this.level.docId)
-          .collection("words")
-          .doc(this.editedWord.docId)
+        await topics.doc(this.world.docId).collection("levels").doc(this.level.docId).collection("words").doc(this.editedWord.docId)
           .update({
+            index: this.editedWord.index,
             word: this.editedWord.word,
-            start: this.editedWord.start,
+            center: this.editedWord.center,
             hint: this.editedWord.hint
           })
           .then(() => {
             Object.assign(this.words[this.editedIndex], this.editedWord);
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "La palabra se actualizo correctamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "La palabra se actualizo correctamente" );
           })
           .catch((error) => {
             console.log(error);
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "Se produjo un error al actualizar la palabra, Intente nuevamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "Se produjo un error al actualizar la palabra, Intente nuevamente" );
           });
       } else {
-        await topics
-          .doc(this.world.docId)
-          .collection("levels")
-          .doc(this.level.docId)
-          .collection("words")
+        await topics.doc(this.world.docId).collection("levels").doc(this.level.docId).collection("words")
           .add(this.editedWord)
           .then((data) => {
             this.editedWord.docId = data.id;
             this.words.push(this.editedWord);
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "La palabra se registro correctamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "La palabra se registro correctamente" );
           })
           .catch(() => {
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "Se produjo un error al cargar la palabra, Intente nuevamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "Se produjo un error al cargar la palabra, Intente nuevamente" );
           });
       }
       this.close();
@@ -151,33 +136,28 @@ export default {
         `Seguro que quiere Eliminar la palabra ${item.word}?`
       );
       if (result == true) {
-        await topics
-          .doc(this.world.docId)
-          .collection("levels")
-          .doc(this.level.docId)
-          .collection("words")
-          .doc(item.docId)
+        await topics.doc(this.world.docId).collection("levels").doc(this.level.docId).collection("words").doc(item.docId)
           .delete()
           .then(() => {
             this.words.splice(index, 1);
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "La palabra se elimino correctamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "La palabra se elimino correctamente" );
           })
           .catch(() => {
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "Se produjo un error al eliminar la palabra, Intente nuevamente"
-            );
+            this.$store.commit( "ACTIVE_SNACK", "Se produjo un error al eliminar la palabra, Intente nuevamente" );
           });
       }
     },
+    orderByIndex(words){
+      words.sort((word1, word2) => {
+        return word1.index - word2.index  
+      }) 
+      return words
+    }
   },
   computed: {
     words() {
       if (this.$store.state.currentLevelAdmin == null) { return [] }
-      return this.$store.state.currentLevelAdmin.words;
+      return this.orderByIndex(this.$store.state.currentLevelAdmin.words);
     },
     level() {
       return this.$store.state.currentLevelAdmin;

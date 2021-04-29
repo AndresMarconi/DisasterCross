@@ -80,7 +80,7 @@ export default {
         if (Math.abs(this.currentPosY - this.startPosY) > 5 && this.endTime - this.startTime > 50) {
           const v = this.lastV;
           const s = v > 0 ? (0.5 * (v ** 2)) / 0.001 : (-0.5 * (v ** 2)) / 0.001;
-          const t = Math.abs(v) / 0.001;
+          //abs(v) / 0.001;
           let currentTranslatedY = this.currentTranslatedY;
           currentTranslatedY += s;
           const residue = currentTranslatedY % 40;
@@ -94,13 +94,13 @@ export default {
             currentTranslatedY -= residue;
           }
           //
-          if (currentTranslatedY > 80) {
+          /* if (currentTranslatedY > 80) {
             //currentTranslatedY = 80;
           } else if (currentTranslatedY < (this.totalHeight - 120) * (-1)) {
             currentTranslatedY = (this.totalHeight - 120) * (-1);
           }
           this.transitionDuration = t;
-          this.currentTranslatedY = currentTranslatedY;
+          this.currentTranslatedY = currentTranslatedY; */
         } else {
           this.haveClicked = true;
         }

@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     'ACTIVE_SNACK': (state, text) => {
       state.snackBar = true,
-        state.snackText = text
+      state.snackText = text
     },
     async 'SET_ADMIN_WORLD'(state, world) {
       world.levels = []
@@ -51,8 +51,9 @@ export default new Vuex.Store({
           querySnapshot.forEach((doc) => {
             level.words.push({
               docId: doc.id,
+              index: doc.data().index,
               word: doc.data().word,
-              start: doc.data().start,
+              center: doc.data().center,
               hint: doc.data().hint
             })
           })

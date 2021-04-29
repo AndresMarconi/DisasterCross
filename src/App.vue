@@ -10,8 +10,8 @@
           transition="scale-transition"
           width="40"
           v-on:dblclick="goToAdmin"
+          v-on:click="goToHome"
         />
-
         <!-- <v-img
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
@@ -24,13 +24,9 @@
 
       <v-spacer></v-spacer>
 
-      <!-- <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Salir</span>
-      </v-btn> -->
+      <v-btn @click="goBack" text>
+        <span class="mr-2">Volver</span>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -56,16 +52,17 @@
 <script>
 export default {
   name: "App",
-
   components: {},
-
-  data: () => ({
-    //
-  }),
   methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
     goToAdmin() {
       this.$router.push("admin");
     },
+    goToHome() {
+      this.$router.push("/");
+    }
   },
 };
 </script>

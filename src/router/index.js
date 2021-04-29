@@ -11,7 +11,13 @@ const routes = [
     component: Home
   },
   {
-    path: "/level/:levelId",
+    path: "/world/:worldId",
+    name: "World",
+    component: () =>
+      import(/* webpackChunkName: "Level" */ "../views/World.vue"),
+  },
+  {
+    path: "/level/:worldId/:levelId",
     name: "Level",
     component: () =>
       import(/* webpackChunkName: "Level" */ "../views/Level.vue"),
