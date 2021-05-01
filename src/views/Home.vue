@@ -2,12 +2,12 @@
   <v-container class="fill-height">
     <v-row class="fill-height">
       <v-col 
-        v-for="level in levels" 
-        :key=level
+        v-for="world in worlds" 
+        :key="world.name"
         class="d-flex fill-height justify-center  level-column py-5">
           <div class="d-flex align-center justify-center levelSelector">
-            <router-link :to="makeRoute(level)">
-              {{level}}
+            <router-link :to="makeRoute(world.docId)">
+              {{world.name}}
             </router-link>
           </div>
       </v-col>
@@ -16,21 +16,36 @@
 </template>
 
 <script>
-
+import { topics } from "@/firebase.js";
 export default {
   name: 'Home',
   data() {
     return {
-      levels: []
+      worlds: []
     }
   },
   methods:{
     makeRoute(id){
-      return "/level/" + id
+      return "/world/" + id
     }
   },
-  created(){
-    this.levels = [1, 2, 3, 4, 5]
+  async created(){
+    this.$store.commit("SET_PAGE_TITLE", "Home");
+    try {
+      this.worlds = await topics.get()
+      .then((querySnapshot) => {
+        let auxworlds = []
+        querySnapshot.forEach((doc) => {
+          let aux = doc.data()
+          aux.docId = doc.id
+          aux.levels = []
+          auxworlds.push(aux)
+        })
+        return auxworlds.reverse()
+      });
+    } catch (error) {
+      return { error }
+    }
   }
 }
 </script>

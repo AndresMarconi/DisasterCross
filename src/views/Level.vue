@@ -1,23 +1,24 @@
 <template>
   <v-container class="d-flex flex-column justify-center">
     <AcrosticWord
-      v-for="word in words"
-      :key="word.id"
+      v-for="word in level.words"
+      :key="word.docId"
       :word="word"
-      :coords="{ center: center, start: calculatedCenter(word) }"
+      :coords="{ center: level.center, start: calculatedCenter(word) }"
       v-on:focused="selectWord(word)"
     />
 
     <v-container class="desc-container d-flex flex-column align-center">
       <h1>Pista</h1>
       <p>
-        {{ currentWord.description }}
+        {{ currentWord.hint }}
       </p>
     </v-container>
   </v-container>
 </template>
 
 <script>
+import { topics } from "@/firebase.js";
 import AcrosticWord from "@/components/AcrosticWord.vue";
 export default {
   name: "level",
@@ -26,47 +27,72 @@ export default {
   },
   data() {
     return {
-      levelName: "",
-      words: [],
-      currentWord: {
-        id: 0,
-        word: "",
-        description: "",
+      level:{
+        level: 0,
+        center: 0,
+        words: []
       },
-      center: 0,
+      currentWord: {
+        word: "",
+        hint: "",
+        center: 0
+      }
     };
   },
-  created() {
-    this.levelName = this.$route.params.levelId;
-    this.$store.commit("SET_PAGE_TITLE", this.levelName);
-    (this.words = [
-      {
-        id: 1,
-        word: "indundacion",
-        description: "lo que paso en lp",
-        center: 2,
-      },
-      { id: 2, word: "lluvia", description: "Cae agua del cielo", center: 4 },
-      { id: 3, word: "guille", description: "El que dibuja pitos", center: 5 },
-      {
-        id: 4,
-        word: "desague",
-        description: "Si se tapa cuando llueve es un quilombo",
-        center: 2,
-      },
-    ]),
-      (this.center = 13);
+  async created() {
+    try {
+      this.level = await this.getLevel()
+      this.level.words = await this.getWords()
+      this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
+    } catch (error) {
+      console.log(error)
+      this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
+    }
   },
   methods: {
+    async getLevel(){
+      let level = await topics.doc(this.$route.params.worldId).collection("levels").doc(this.$route.params.levelId)
+      .get()
+      .then((doc) => {
+        let auxLevel={
+          docId: doc.id,
+          level: doc.data().level,
+          center: doc.data().center,
+          words: []
+        }
+        return auxLevel
+      })
+      return level
+    },
+    async getWords(){
+      let words = await topics.doc(this.$route.params.worldId).collection("levels").doc(this.$route.params.levelId).collection("words")
+      .get()
+      .then((querySnapshot) => {
+        let auxwords = [];
+        querySnapshot.forEach((doc) => {
+          let word = doc.data();
+          word.docId = doc.id;
+          auxwords.push(word);
+        });
+        return auxwords;
+      });
+      return this.orderByIndex(words)
+    },
     selectWord(word) {
       if (this.currentWord.word != word.word) {
         this.currentWord = word;
       }
     },
     calculatedCenter(word) {
-      return this.center - word.center;
+      return this.level.center - (word.center - 1);
     },
-  },
+    orderByIndex(words){
+      words.sort((word1, word2) => {
+        return word1.index - word2.index  
+      }) 
+      return words
+    }
+  }
 };
 </script>
 

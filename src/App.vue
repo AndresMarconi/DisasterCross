@@ -6,29 +6,26 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="./assets/logo.png"
           transition="scale-transition"
           width="40"
+          v-on:dblclick="goToAdmin"
+          v-on:click="goToHome"
         />
-
-        <v-img
+        <!-- <v-img
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        /> -->
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Salir</span>
+      <v-btn @click="goBack" text>
+        <span class="mr-2">Volver</span>
       </v-btn>
     </v-app-bar>
 
@@ -38,7 +35,7 @@
           {{ $store.state.page }}
         </h1>
       </v-row>
-      <v-container class="fill-height">
+      <v-container :fluid="true" class="fill-height">
         <v-row class="fill-height">
           <v-col class="fill-height">
             <router-view />
@@ -46,17 +43,26 @@
         </v-row>
       </v-container>
     </v-main>
+    <v-snackbar v-model="$store.state.snackBar" timeout="4000" top>
+      {{ $store.state.snackText }}
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 export default {
   name: "App",
-
   components: {},
-
-  data: () => ({
-    //
-  }),
+  methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
+    goToAdmin() {
+      this.$router.push("admin");
+    },
+    goToHome() {
+      this.$router.push("/");
+    }
+  },
 };
 </script>
