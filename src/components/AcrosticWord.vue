@@ -121,6 +121,7 @@ export default {
           this.caracters.splice(i, 1, this.word.word[i])
         }
       }
+      this.$emit('success')
     },
     lose(){
       this.extraClass = "inp-box lose"
@@ -130,7 +131,13 @@ export default {
       this.res=[]
       setTimeout(() => this.extraClass = "inp-box", 1000)
       this.$refs["word0"][0].focus()
-    }
+    },
+    focusToFirst(){
+      this.$refs["word0"][0].focus()
+      if (this.caracters[0].length > 1){
+        this.caracters.splice(0, 1, "")
+      }
+    },
   }
 }
 </script>
