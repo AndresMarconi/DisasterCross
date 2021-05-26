@@ -9,10 +9,11 @@
           v-model="caracters[caracter - coords.start]"
           v-on:blur="handleBlur(caracter - coords.start)"
           v-on:focus="focused()"
-          v-on:change="changeFocus(caracter - coords.start)"
+          v-on:keyup="changeFocus(caracter - coords.start)"
           solo
           outlined
-          :disabled="winLevel"/>
+          :disabled="winLevel"
+          :ref="`word${caracter - coords.start}`"/>
         <v-text-field
           v-else-if="isInRange(caracter)" 
           :class="extraClass"
@@ -21,7 +22,8 @@
           v-on:focus="focused()"
           v-on:keyup="changeFocus(caracter - coords.start)"
           solo
-          :disabled="winLevel"/>
+          :disabled="winLevel"
+          :ref="`word${caracter - coords.start}`"/>
         <v-text-field
           class="inp-box"
           v-else 
@@ -78,7 +80,14 @@ export default {
       }
     },
     changeFocus(pos){
-      console.log(this.caracters[pos])
+      let next = pos + 1
+      if (next < this.word.word.length) {
+        this.$refs[`word${next}`][0].focus()
+      } else {
+        this.res[pos] = this.caracters[pos]
+        this.handleBlur(pos)
+      }
+      
     },
     completeAnswer(){
       return (this.res.length == this.caracters.length) && !(this.res.includes(undefined))
@@ -105,6 +114,7 @@ export default {
       }
       this.res=[]
       setTimeout(() => this.extraClass = "inp-box", 1000)
+      this.$refs["word0"][0].focus()
     }
   }
 }
