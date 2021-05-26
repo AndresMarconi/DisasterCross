@@ -8,20 +8,22 @@
           :class="extraClass"
           v-model="caracters[caracter - coords.start]"
           v-on:blur="handleBlur(caracter - coords.start)"
-          v-on:focus="focused()"
-          v-on:change="changeFocus(caracter - coords.start)"
+          v-on:focus="focused(caracter - coords.start)"
+          v-on:keyup="changeFocus( caracter - coords.start)"
           solo
           outlined
-          :disabled="winLevel"/>
+          :disabled="winLevel"
+          :ref="`word${caracter - coords.start}`"/>
         <v-text-field
           v-else-if="isInRange(caracter)" 
           :class="extraClass"
           v-model="caracters[caracter - coords.start]"
           v-on:blur="handleBlur(caracter - coords.start)"
-          v-on:focus="focused()"
-          v-on:keyup="changeFocus(caracter - coords.start)"
+          v-on:focus="focused(caracter - coords.start)"
+          v-on:keyup="changeFocus( caracter - coords.start)"
           solo
-          :disabled="winLevel"/>
+          :disabled="winLevel"
+          :ref="`word${caracter - coords.start}`"/>
         <v-text-field
           class="inp-box"
           v-else 
@@ -58,8 +60,17 @@ export default {
       this.caracters.push("")
     }
   },
+  mounted(){
+    for (let i = 0; i < this.word.word.length; i++) {
+      const inputElement = this.$refs[`word${i}`][0].$el.querySelector('input')
+      inputElement.max = 1 
+    }
+  },
   methods:{
-    focused(){
+    focused(car){
+      if (this.caracters[car].length > 0){
+        this.caracters.splice(car, 1, "")
+      }
       this.$emit('focused')
     },
     isInRange(pos){
@@ -78,7 +89,16 @@ export default {
       }
     },
     changeFocus(pos){
-      console.log(this.caracters[pos])
+      let next = pos + 1
+      if (next < this.word.word.length) {
+          this.$refs[`word${next}`][0].focus() 
+      } else {
+        this.res[pos] = this.caracters[pos]
+        this.handleBlur(pos)
+      }
+      if (this.caracters[pos].length > 1){
+        this.caracters.splice(pos, 1, this.caracters[pos][0])
+      }
     },
     completeAnswer(){
       return (this.res.length == this.caracters.length) && !(this.res.includes(undefined))
@@ -93,19 +113,31 @@ export default {
       return answer 
     },
     win(){
-      console.log("ganaste perro")
       this.extraClass = "inp-box win"
       this.winLevel = true
+      //this fix a bug dont delete 
+      if (this.caracters.includes("")) {
+        for (let i = 0; i < this.word.word.length; i++) {
+          this.caracters.splice(i, 1, this.word.word[i])
+        }
+      }
+      this.$emit('success')
     },
     lose(){
-      console.log("perdiste perro")
       this.extraClass = "inp-box lose"
       for (let i = 0; i < this.caracters.length; i++) {
         this.caracters[i] = ""
       }
       this.res=[]
       setTimeout(() => this.extraClass = "inp-box", 1000)
-    }
+      this.$refs["word0"][0].focus()
+    },
+    focusToFirst(){
+      this.$refs["word0"][0].focus()
+      if (this.caracters[0].length > 1){
+        this.caracters.splice(0, 1, "")
+      }
+    },
   }
 }
 </script>

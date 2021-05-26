@@ -6,6 +6,8 @@
       :word="word"
       :coords="{ center: level.center, start: calculatedCenter(word) }"
       v-on:focused="selectWord(word)"
+      v-on:success="nextWordFocus(word)"
+      :ref="word"
     />
 
     <v-container class="desc-container d-flex flex-column align-center">
@@ -27,6 +29,7 @@ export default {
   },
   data() {
     return {
+      wins: 0,
       level:{
         level: 0,
         center: 0,
@@ -91,6 +94,19 @@ export default {
         return word1.index - word2.index  
       }) 
       return words
+    },
+    nextWordFocus(word){
+      let index = this.level.words.indexOf(word) + 1
+      this.wins++
+      if (index < this.level.words.length) {
+        this.$refs[`${ this.level.words[index] }`][index].focusToFirst()
+      } else {
+        if (this.wins == (this.level.words.length * 2)) {
+          this.$store.commit('ACTIVE_SNACK', "Nivel completado")
+          this.$router.push("/world/"+this.$route.params.worldId)
+        }
+      }
+      
     }
   }
 };
