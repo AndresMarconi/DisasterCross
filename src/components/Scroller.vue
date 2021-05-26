@@ -119,7 +119,7 @@ export default {
       let mouseMove = null;
       let mouseUp = null;
       let mouseLeave = null;
-      let mouseWheel = null;
+      //let mouseWheel = null;
       mouseDown = (e) => { // mouse down event
         this.isMouseDown = true;
         this.startPosY = e.pageY;
@@ -187,8 +187,8 @@ export default {
           mouseUp();
         }
       };
-      mouseWheel = (e) => { // mouse wheel event
-        this.startTranslatedY = this.currentTranslatedY;
+      /* mouseWheel = (e) => { // mouse wheel event
+         this.startTranslatedY = this.currentTranslatedY;
         let currentTranslatedY = this.startTranslatedY + (e.deltaY * 0.5);
         const residue = currentTranslatedY % 40;
         if (Math.abs(residue) >= 20) {
@@ -207,11 +207,11 @@ export default {
         }
         this.transitionDuration = 0.2;
         this.currentTranslatedY = currentTranslatedY;
-        this.startTranslatedY = 0;
-      };
+        this.startTranslatedY = 0; 
+      }; */
       // bind events
       el.addEventListener('mousedown', mouseDown);
-      el.addEventListener('wheel', mouseWheel);
+      //el.addEventListener('wheel', mouseWheel);
     },
     bindClickEvent() {
       const el = this.$refs.ul;
