@@ -1,16 +1,14 @@
 <template>
   <v-container class="d-flex flex-column justify-center align-center back-con">
     <v-toolbar style="width: 100%" flat class="tenloFondo">
-      <v-toolbar-title class="text--primary font-weight-large"
-        >Mundos</v-toolbar-title
-      >
+      <v-toolbar-title class="text--primary font-weight-large">Mundos</v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-dialog dark v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn color="orange" class="mb-2" v-on="on"
-            ><v-icon color="black">mdi-plus</v-icon></v-btn
-          >
+          <v-btn color="orange" class="mb-2" v-on="on">
+            <v-icon color="black">mdi-plus</v-icon>
+          </v-btn>
         </template>
         <v-card>
           <v-card-title class="justify-space-around">
@@ -34,9 +32,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-            <v-btn :disabled="!valid" color="blue darken-1" text @click="save"
-              >Cargar</v-btn
-            >
+            <v-btn :disabled="!valid" color="blue darken-1" text @click="save">Cargar</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -54,9 +50,7 @@
         <v-card-text> </v-card-text>
         <v-card-actions>
           <v-icon small @click="editItem(item)" class="mr-4">mdi-pencil</v-icon>
-          <v-icon small @click="deleteItem(item)" class="mr-4"
-            >mdi-delete</v-icon
-          >
+          <v-icon small @click="deleteItem(item)" class="mr-4">mdi-delete</v-icon>
         </v-card-actions>
       </v-card>
     </Scroller>
