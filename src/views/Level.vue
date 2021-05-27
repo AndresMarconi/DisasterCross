@@ -43,13 +43,17 @@ export default {
     };
   },
   async created() {
+    this.$store.commit("ACTIVATE_LOADING")
+    this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
       this.level = await this.getLevel()
       this.level.words = await this.getWords()
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
+      this.$store.commit("DEACTIVATE_LOADING")
     } catch (error) {
       console.log(error)
       this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
+      this.$store.commit("DEACTIVATE_LOADING")
     }
   },
   methods: {

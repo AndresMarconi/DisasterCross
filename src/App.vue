@@ -12,14 +12,6 @@
           v-on:dblclick="goToAdmin"
           v-on:click="goToHome"
         />
-        <!-- <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        /> -->
       </div>
 
       <v-spacer></v-spacer>
@@ -29,18 +21,26 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main>
-      <v-row class="d-flex justify-center py-3">
-        <h1>
-          {{ $store.state.page }}
-        </h1>
-      </v-row>
-      <v-container :fluid="true" class="fill-height">
-        <v-row class="fill-height">
-          <v-col class="fill-height">
-            <router-view />
-          </v-col>
+    <v-main class="myMain">
+      <v-container class="principalBack">
+        <v-row class="d-flex flex-column align-center justify-center py-3">
+          <h1>
+            {{ $store.state.page }}
+          </h1>
+          <v-progress-circular
+            class="my-5"
+            v-if="$store.state.loading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
         </v-row>
+        <v-container :fluid="true" class="fill-height">
+          <v-row class="fill-height">
+            <v-col class="fill-height">
+              <router-view />
+            </v-col>
+          </v-row>
+        </v-container>
       </v-container>
     </v-main>
     <v-snackbar v-model="$store.state.snackBar" timeout="4000" top>
@@ -66,3 +66,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .myMain{
+    display: flex;
+    align-items: center
+  }
+
+  .principalBack{
+    min-height: 80vh;
+    background-color: darkgray;
+  }
+</style>

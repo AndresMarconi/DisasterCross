@@ -60,13 +60,17 @@ export default {
     }
   },
   async created(){
+    this.$store.commit("ACTIVATE_LOADING")
+    this.$store.commit("SET_PAGE_TITLE", "Cargando Niveles");
     try {
       this.world = await this.getWorld()
       this.world.levels = await this.getLevels()
       this.$store.commit("SET_PAGE_TITLE", this.world.name);
+      this.$store.commit("DEACTIVATE_LOADING")
     } catch (error) {
       console.log(error)
       this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el mundo :(")
+      this.$store.commit("DEACTIVATE_LOADING")
     }
     
   }
@@ -80,7 +84,13 @@ export default {
     border-radius: 100%;
     background-color: aquamarine;
   }
-  .level-column:nth-child(odd){
-    align-items: flex-end
+  .level-column:nth-child(1){
+    margin-top: 20vh;
+  }
+  .level-column:nth-child(2){
+    margin-top: 10vh;
+  }
+  .level-column:nth-child(3){
+    margin-top: 15vh;
   }
 </style>
