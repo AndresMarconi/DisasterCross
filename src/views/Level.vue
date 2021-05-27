@@ -11,7 +11,7 @@
     />
 
     <v-container class="desc-container d-flex flex-column align-center">
-      <h1>Pista</h1>
+      <h2>Pista</h2>
       <p>
         {{ currentWord.hint }}
       </p>
@@ -43,6 +43,7 @@ export default {
     };
   },
   async created() {
+    
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
@@ -50,10 +51,16 @@ export default {
       this.level.words = await this.getWords()
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
       this.$store.commit("DEACTIVATE_LOADING")
+      console.log("created")
     } catch (error) {
       console.log(error)
       this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
       this.$store.commit("DEACTIVATE_LOADING")
+    }
+  },
+  updated(){
+    if (!this.$store.state.loading) {
+      this.focusFirst()
     }
   },
   methods: {
@@ -110,7 +117,11 @@ export default {
           this.$router.push("/world/"+this.$route.params.worldId)
         }
       }
-      
+    },
+    focusFirst(){
+      console.log(this.$refs[`${ this.level.words[0] }`])
+      console.log(this.level.words[0])
+      this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
     }
   }
 };

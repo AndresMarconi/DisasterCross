@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import a11yChecker from 'a11y-checker';
 export default {
   name: "App",
   components: {},
@@ -64,6 +65,10 @@ export default {
       this.$router.push("/");
     }
   },
+  updated(){
+    console.log("checeado")
+    a11yChecker();
+  }
 };
 </script>
 
