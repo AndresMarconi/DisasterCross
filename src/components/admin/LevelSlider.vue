@@ -37,10 +37,7 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
-      <Scroller :elementHeigth="150" :elementsSize="levels.length">
-        <p v-show="!world">
-          No hay mundo seleccionado
-        </p>
+      <Scroller v-if="world" :elementHeigth="150" :elementsSize="levels.length">
         <p v-show="world && world.levels.length <= 0">
           Mundo sin niveles
         </p>
@@ -61,6 +58,9 @@
           </v-card-actions>
         </v-card>  
       </Scroller >
+      <p class="mt-5" v-else>
+        No hay mundo seleccionado
+      </p>
     </v-container>
 </template>
 

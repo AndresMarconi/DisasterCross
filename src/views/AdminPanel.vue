@@ -43,7 +43,7 @@ export default {
   computed:{
     words(){
       if (!this.$store.state.currentLevelAdmin) {return []}
-      return this.$store.state.currentLevelAdmin.words;
+      return this.orderByIndex(this.$store.state.currentLevelAdmin.words);
     },
     center(){
       return this.$store.state.currentLevelAdmin.center
@@ -51,7 +51,13 @@ export default {
   },
   methods:{
     calculatedCenter(word) {
-      return this.center - word.center;
+      return this.center - (word.center - 1);
+    },
+    orderByIndex(words){
+      words.sort((word1, word2) => {
+        return word1.index - word2.index  
+      }) 
+      return words
     }
   },
   created(){

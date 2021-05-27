@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     page: "home",
+    loading: false,
     snackBar: false,
     snackText: "",
     currentWorldAdmin: null,
@@ -19,6 +20,12 @@ export default new Vuex.Store({
     'ACTIVE_SNACK': (state, text) => {
       state.snackBar = true,
       state.snackText = text
+    },
+    'ACTIVATE_LOADING': (state) => {
+      state.loading = true
+    },
+    'DEACTIVATE_LOADING': (state) => {
+      state.loading = false
     },
     async 'SET_ADMIN_WORLD'(state, world) {
       world.levels = []

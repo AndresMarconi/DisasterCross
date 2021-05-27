@@ -1,9 +1,7 @@
 <template>
   <v-container class="d-flex flex-column justify-center align-center back-con">
     <v-toolbar style="width: 100%" flat class="tenloFondo">
-      <v-toolbar-title class="text--primary font-weight-large">
-        Palabras
-        </v-toolbar-title>
+      <v-toolbar-title class="text--primary font-weight-large">Palabras</v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
       <v-spacer></v-spacer>
       <v-dialog dark v-model="dialog" max-width="500px">
@@ -54,8 +52,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <Scroller :elementHeigth="100" :elementsSize="words.length">
-      <p v-show="!level">No hay nivel seleccionado</p>
+    <Scroller v-if="level" :elementHeigth="150" :elementsSize="words.length">
       <p v-show="level && level.words.length <= 0"> Nivel sin palabras </p>
       <v-card class="my-5 py-5" v-for="item in words" :key="item.word">
         <v-card-title>{{ item.word }} </v-card-title>
@@ -66,6 +63,9 @@
         </v-card-actions>
       </v-card>
     </Scroller>
+    <p class="mt-5" v-else>
+      No hay nivel seleccionado
+    </p>
   </v-container>
 </template>
 

@@ -30,7 +30,8 @@ export default {
     }
   },
   async created(){
-    this.$store.commit("SET_PAGE_TITLE", "Home");
+    this.$store.commit("ACTIVATE_LOADING")
+    this.$store.commit("SET_PAGE_TITLE", "Desastres");
     try {
       this.worlds = await topics.get()
       .then((querySnapshot) => {
@@ -41,9 +42,11 @@ export default {
           aux.levels = []
           auxworlds.push(aux)
         })
+        this.$store.commit("DEACTIVATE_LOADING")
         return auxworlds.reverse()
       });
     } catch (error) {
+      this.$store.commit("DEACTIVATE_LOADING")
       return { error }
     }
   }
@@ -57,7 +60,13 @@ export default {
     border-radius: 100%;
     background-color: aquamarine;
   }
-  .level-column:nth-child(odd){
-    align-items: flex-end
+  .level-column:nth-child(1){
+    margin-top: 5vh;
+  }
+  .level-column:nth-child(2){
+    margin-top: 25vh;
+  }
+  .level-column:nth-child(3){
+    margin-top: 15vh;
   }
 </style>
