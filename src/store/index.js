@@ -18,6 +18,7 @@ export default new Vuex.Store({
       state.page = name;
     },
     'ACTIVE_SNACK': (state, text) => {
+      console.log(text)
       state.snackBar = true,
       state.snackText = text
     },

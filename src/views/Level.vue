@@ -1,14 +1,17 @@
 <template>
   <v-container class="d-flex flex-column justify-center">
-    <AcrosticWord
-      v-for="word in level.words"
-      :key="word.docId"
-      :word="word"
-      :coords="{ center: level.center, start: calculatedCenter(word) }"
-      v-on:focused="selectWord(word)"
-      v-on:success="nextWordFocus(word)"
-      :ref="word"
-    />
+    <Scroller v-if="level.words[0]" :elementHeigth="40" :elementsSize="level.words.length" :the120="60" :the40="20"> 
+      <AcrosticWord
+        v-for="word in level.words"
+        :key="word.docId"
+        :word="word"
+        :coords="{ center: level.center, start: calculatedCenter(word) }"
+        v-on:focused="selectWord(word)"
+        v-on:success="nextWordFocus(word)"
+        :ref="word"
+      />
+    </Scroller>
+    
 
     <v-container class="desc-container d-flex flex-column align-center">
       <h2>Pista</h2>
@@ -22,10 +25,12 @@
 <script>
 import { topics } from "@/firebase.js";
 import AcrosticWord from "@/components/AcrosticWord.vue";
+import Scroller from "@/components/Scroller.vue";
 export default {
   name: "level",
   components: {
     AcrosticWord,
+    Scroller
   },
   data() {
     return {
@@ -43,7 +48,7 @@ export default {
     };
   },
   async created() {
-    
+
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
@@ -51,7 +56,6 @@ export default {
       this.level.words = await this.getWords()
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
       this.$store.commit("DEACTIVATE_LOADING")
-      console.log("created")
     } catch (error) {
       console.log(error)
       this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
@@ -119,8 +123,6 @@ export default {
       }
     },
     focusFirst(){
-      console.log(this.$refs[`${ this.level.words[0] }`])
-      console.log(this.level.words[0])
       this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
     }
   }

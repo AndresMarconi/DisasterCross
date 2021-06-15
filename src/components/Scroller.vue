@@ -13,7 +13,15 @@ export default {
   name: 'Scroller',
   props: {
     elementHeigth: Number,
-    elementsSize: Number
+    elementsSize: Number,
+    the120: {
+      type: Number,
+      default: 120
+    },
+    the40: {
+      type: Number,
+      default: 40
+    },
   },
   data() {
     return {
@@ -83,12 +91,12 @@ export default {
           //abs(v) / 0.001;
           let currentTranslatedY = this.currentTranslatedY;
           currentTranslatedY += s;
-          const residue = currentTranslatedY % 40;
-          if (Math.abs(residue) >= 20) {
+          const residue = currentTranslatedY % this.the40;
+          if (Math.abs(residue) >= (this.the40 / 2)) {
             if (residue < 0) {
-              currentTranslatedY += ((40 + residue) * (-1));
+              currentTranslatedY += ((this.the40 + residue) * (-1));
             } else {
-              currentTranslatedY += (40 - residue);
+              currentTranslatedY += (this.the40 - residue);
             }
           } else {
             currentTranslatedY -= residue;
@@ -150,20 +158,20 @@ export default {
           const t = Math.abs(v) / 0.001;
           let currentTranslatedY = this.currentTranslatedY;
           currentTranslatedY += s;
-          const residue = currentTranslatedY % 40;
-          if (Math.abs(residue) >= 20) {
+          const residue = currentTranslatedY % this.the40;
+          if (Math.abs(residue) >= (this.the40 / 2)) {
             if (residue < 0) {
-              currentTranslatedY += ((40 + residue) * (-1));
+              currentTranslatedY += ((this.the40 + residue) * (-1));
             } else {
-              currentTranslatedY += (40 - residue);
+              currentTranslatedY += (this.the40 - residue);
             }
           } else {
             currentTranslatedY -= residue;
           }
-          if (currentTranslatedY > 80) {
+          if (currentTranslatedY > (this.the40 * 2)) {
             currentTranslatedY = 0;
-          } else if (currentTranslatedY < (this.totalHeight - 120) * (-1)) {
-            currentTranslatedY = (this.totalHeight - 120) * (-1);
+          } else if (currentTranslatedY < (this.totalHeight - this.the120) * (-1)) {
+            currentTranslatedY = (this.totalHeight - this.the120) * (-1);
           }
           this.transitionDuration = t;
           this.currentTranslatedY = currentTranslatedY; 
@@ -219,7 +227,7 @@ export default {
         $li.addEventListener('click', () => {
           if (this.haveClicked) {
             const itemPositionY = $li.offsetTop;
-            const currentTranslatedY = 80 - itemPositionY;
+            const currentTranslatedY = (this.the40 * 2) - itemPositionY;
             this.transitionDuration = 0;
             this.currentTranslatedY = currentTranslatedY;
             this.haveClicked = false;
@@ -231,7 +239,7 @@ export default {
   },
   watch: {
     itemList: () => {
-      this.totalHeight = this.itemList.length * 40;
+      this.totalHeight = this.itemList.length * this.the40;
     },
   },
 };
@@ -263,7 +271,7 @@ export default {
   font-size: 1.375em;
 }
 .vscroller__body {
-  height: 500px;
+  height: 50vh;
   overflow: hidden;
   position: relative;
 }

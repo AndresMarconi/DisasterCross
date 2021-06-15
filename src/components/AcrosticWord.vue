@@ -121,6 +121,7 @@ export default {
           this.caracters.splice(i, 1, this.word.word[i])
         }
       }
+      this.$store.commit('ACTIVE_SNACK', "Acierto")
       this.$emit('success')
     },
     lose(){
@@ -129,6 +130,7 @@ export default {
         this.caracters[i] = ""
       }
       this.res=[]
+      this.$store.commit('ACTIVE_SNACK', "Error")
       setTimeout(() => this.extraClass = "inp-box", 1000)
       this.$refs["word0"][0].focus()
     },

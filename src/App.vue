@@ -43,7 +43,7 @@
         </v-container>
       </v-container>
     </v-main>
-    <v-snackbar v-model="$store.state.snackBar" timeout="4000" top>
+    <v-snackbar :model="$store.state.snackBar" :timeout="4000" top>
       {{ $store.state.snackText }}
     </v-snackbar>
   </v-app>
@@ -66,7 +66,6 @@ export default {
     }
   },
   updated(){
-    console.log("checeado")
     a11yChecker();
   }
 };
