@@ -24,10 +24,9 @@
           solo
           :disabled="winLevel"
           :ref="`word${caracter - coords.start}`"/>
-        <v-text-field
-          class="inp-box"
-          v-else 
-          disabled/>
+        <div
+          class="inputForspace"
+          v-else  />
 
       </v-form>
     </v-container>
@@ -121,6 +120,7 @@ export default {
           this.caracters.splice(i, 1, this.word.word[i])
         }
       }
+      this.$store.commit('ACTIVE_SNACK', "Acierto")
       this.$emit('success')
     },
     lose(){
@@ -129,6 +129,7 @@ export default {
         this.caracters[i] = ""
       }
       this.res=[]
+      this.$store.commit('ACTIVE_SNACK', "Error")
       setTimeout(() => this.extraClass = "inp-box", 1000)
       this.$refs["word0"][0].focus()
     },
@@ -146,6 +147,11 @@ export default {
   .inp-box{
     width: 50px;
     height: 50px;
+  }
+
+  .inputForspace{
+    height: 0;
+    width: 50px
   }
 
   .center-box{

@@ -1,17 +1,19 @@
 <template>
   <v-container class="d-flex flex-column justify-center">
-    <AcrosticWord
-      v-for="word in level.words"
-      :key="word.docId"
-      :word="word"
-      :coords="{ center: level.center, start: calculatedCenter(word) }"
-      v-on:focused="selectWord(word)"
-      v-on:success="nextWordFocus(word)"
-      :ref="word"
-    />
-
+    <Scroller v-if="level.words[0]" :elementHeigth="40" :elementsSize="level.words.length" :the120="60" :the40="20"> 
+      <AcrosticWord
+        v-for="word in level.words"
+        :key="word.docId"
+        :word="word"
+        :coords="{ center: level.center, start: calculatedCenter(word) }"
+        v-on:focused="selectWord(word)"
+        v-on:success="nextWordFocus(word)"
+        :ref="word"
+      />
+    </Scroller>
+    
     <v-container class="desc-container d-flex flex-column align-center">
-      <h1>Pista</h1>
+      <h2>Pista</h2>
       <p>
         {{ currentWord.hint }}
       </p>
@@ -22,10 +24,12 @@
 <script>
 import { topics } from "@/firebase.js";
 import AcrosticWord from "@/components/AcrosticWord.vue";
+import Scroller from "@/components/Scroller.vue";
 export default {
   name: "level",
   components: {
     AcrosticWord,
+    Scroller
   },
   data() {
     return {
@@ -43,6 +47,7 @@ export default {
     };
   },
   async created() {
+
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
@@ -54,6 +59,11 @@ export default {
       console.log(error)
       this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
       this.$store.commit("DEACTIVATE_LOADING")
+    }
+  },
+  updated(){
+    if (!this.$store.state.loading) {
+      this.focusFirst()
     }
   },
   methods: {
@@ -110,7 +120,9 @@ export default {
           this.$router.push("/world/"+this.$route.params.worldId)
         }
       }
-      
+    },
+    focusFirst(){
+      this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
     }
   }
 };

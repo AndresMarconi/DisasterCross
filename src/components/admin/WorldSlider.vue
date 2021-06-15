@@ -38,7 +38,7 @@
       </v-dialog>
     </v-toolbar>
 
-    <Scroller :elementHeigth="150" :elementsSize="worlds.length">
+    <Scroller v-if="worlds[0]" :elementHeigth="150" :elementsSize="worlds.length"> 
       <v-card
         class="my-5 py-5"
         v-for="item in worlds"

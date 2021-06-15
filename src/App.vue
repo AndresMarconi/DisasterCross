@@ -43,13 +43,14 @@
         </v-container>
       </v-container>
     </v-main>
-    <v-snackbar v-model="$store.state.snackBar" timeout="4000" top>
+    <v-snackbar :model="$store.state.snackBar" :timeout="4000" top>
       {{ $store.state.snackText }}
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import a11yChecker from 'a11y-checker';
 export default {
   name: "App",
   components: {},
@@ -64,6 +65,9 @@ export default {
       this.$router.push("/");
     }
   },
+  updated(){
+    a11yChecker();
+  }
 };
 </script>
 
