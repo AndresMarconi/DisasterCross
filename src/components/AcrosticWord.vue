@@ -24,10 +24,9 @@
           solo
           :disabled="winLevel"
           :ref="`word${caracter - coords.start}`"/>
-        <v-text-field
-          class="inp-box"
-          v-else 
-          disabled/>
+        <div
+          class="inputForspace"
+          v-else  />
 
       </v-form>
     </v-container>
@@ -148,6 +147,11 @@ export default {
   .inp-box{
     width: 50px;
     height: 50px;
+  }
+
+  .inputForspace{
+    height: 0;
+    width: 50px
   }
 
   .center-box{

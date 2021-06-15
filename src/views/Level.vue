@@ -12,7 +12,6 @@
       />
     </Scroller>
     
-
     <v-container class="desc-container d-flex flex-column align-center">
       <h2>Pista</h2>
       <p>
