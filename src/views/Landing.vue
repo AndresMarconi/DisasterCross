@@ -34,9 +34,9 @@ export default {
     HowToPlay
   },
   methods:{
-    play(){
+    async play(){
 
-      users.doc(this.name).get().then((doc) => {
+      await users.doc(this.name).get().then((doc) => {
           if (doc.exists) {
             this.$store.commit(
               "SET_USER",

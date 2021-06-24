@@ -6,6 +6,7 @@
         :key="word.docId"
         :word="word"
         :coords="{ center: level.center, start: calculatedCenter(word) }"
+        :winLevel="passedWords[level.words.indexOf(word)]"
         v-on:focused="selectWord(word)"
         v-on:success="nextWordFocus(word)"
         :ref="word"
@@ -43,16 +44,17 @@ export default {
         word: "",
         hint: "",
         center: 0
-      }
+      },
+      passedWords: []
     };
   },
   async created() {
-
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
       this.level = await this.getLevel()
       this.level.words = await this.getWords()
+      this.setPassedWords()
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
       this.$store.commit("DEACTIVATE_LOADING")
     } catch (error) {
@@ -123,6 +125,16 @@ export default {
     },
     focusFirst(){
       this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
+    },
+    setPassedWords(){
+      if (this.level.level < this.$store.state.user.level) {
+        this.level.words.forEach(word => {
+          word.hint
+          this.passedWords.push(true)
+        });
+      } else {
+        this.passedWords = this.$store.state.user.words
+      }
     }
   }
 };

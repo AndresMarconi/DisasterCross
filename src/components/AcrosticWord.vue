@@ -40,7 +40,6 @@ export default {
       caracters: [],
       res: [],
       extraClass: "inp-box",
-      winLevel: false
     }
   },
   props:{
@@ -52,12 +51,21 @@ export default {
     coords:{
       start:0,
       center:0
-    }
+    },
+    winLevel: Boolean
   },
   created(){
-    for (let i = 0; i < this.word.word.length; i++) {
-      this.caracters.push("")
+    if (this.winLevel) {
+      this.extraClass = "inp-box win"
+      for (let i = 0; i < this.word.word.length; i++) {
+        this.caracters.push(this.word.word[i])
+      }
+    } else {
+      for (let i = 0; i < this.word.word.length; i++) {
+        this.caracters.push("")
+      }
     }
+    
   },
   mounted(){
     for (let i = 0; i < this.word.word.length; i++) {

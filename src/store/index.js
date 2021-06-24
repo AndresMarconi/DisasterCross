@@ -16,7 +16,8 @@ export default new Vuex.Store({
       name: "",
       world: "",
       level: "",
-      words: []
+      words: [],
+      passedWorlds: []
     }
   },
   mutations: {
@@ -82,7 +83,11 @@ export default new Vuex.Store({
       state.user.world = world;
       state.user.level = level;
       state.user.words = words;
+    },
+    'SET_WORLD_PASSED'(state, world) {
+      state.user.passedWorlds.push(world)
     }
+    
   },
   actions: {
   },

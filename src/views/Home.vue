@@ -5,10 +5,11 @@
         v-for="world in worlds" 
         :key="world.name"
         class="level-column">
-          <div class="d-flex align-center justify-center levelSelector">
-            <router-link :to="makeRoute(world.docId)">
+          <div :class="'d-flex align-center justify-center levelSelector ' + world.extraClass">
+            <router-link v-if="world.extraClass == 'passedSelector'"  :to="makeRoute(world.docId)">
               {{world.name}}
             </router-link>
+            <h5 v-else style="color: white"> {{world.name}} </h5>
           </div>
           <div class="first-line"></div>
           <div class="second-line"></div>
@@ -23,16 +24,24 @@ export default {
   name: 'Home',
   data() {
     return {
-      worlds: []
+      worlds: [],
+      lastFlag: false
     }
   },
   methods:{
     makeRoute(id){
       return "/world/" + id
+    },
+    passed(world){
+      if (!this.lastFlag) {
+        world.extraClass = "passedSelector"
+        if (world.name == this.$store.state.user.world) { this.lastFlag = true }
+      } else {
+        world.extraClass = "notPassedSelector"
+      }
     }
   },
   async created(){
-    console.log(this.$store.state.user)
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Desastres");
     try {
@@ -43,6 +52,7 @@ export default {
           let aux = doc.data()
           aux.docId = doc.id
           aux.levels = []
+          this.passed(aux)
           auxworlds.push(aux)
         })
         this.$store.commit("DEACTIVATE_LOADING")
@@ -66,11 +76,16 @@ export default {
   $margin4: random(40) 
   $margin5: random(40)
   
+  .passedSelector
+    background-color: aquamarine
+
+  .notPassedSelector
+    background-color: black
+
   .levelSelector
     width: $selector_size
     height: $selector_size
     border-radius: 100%
-    background-color: aquamarine
 
   .level-column
     margin: 0
