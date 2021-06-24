@@ -32,6 +32,7 @@ export default {
     }
   },
   async created(){
+    console.log(this.$store.state.user)
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Desastres");
     try {

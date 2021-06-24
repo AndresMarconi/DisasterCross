@@ -11,7 +11,13 @@ export default new Vuex.Store({
     snackBar: false,
     snackText: "",
     currentWorldAdmin: null,
-    currentLevelAdmin: null
+    currentLevelAdmin: null,
+    user: {
+      name: "",
+      world: "",
+      level: "",
+      words: []
+    }
   },
   mutations: {
     'SET_PAGE_TITLE'(state, name) {
@@ -71,6 +77,12 @@ export default new Vuex.Store({
         })
       state.currentLevelAdmin = level;
     },
+    'SET_USER'(state, {name, world, level, words}) {
+      state.user.name = name;
+      state.user.world = world;
+      state.user.level = level;
+      state.user.words = words;
+    }
   },
   actions: {
   },
