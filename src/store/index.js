@@ -18,9 +18,9 @@ export default new Vuex.Store({
       state.page = name;
     },
     'ACTIVE_SNACK': (state, text) => {
-      console.log(text)
       state.snackBar = true,
       state.snackText = text
+      setTimeout(function(){ state.snackBar = false }, 3000);
     },
     'ACTIVATE_LOADING': (state) => {
       state.loading = true
