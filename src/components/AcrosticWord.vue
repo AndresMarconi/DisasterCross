@@ -40,6 +40,7 @@ export default {
       caracters: [],
       res: [],
       extraClass: "inp-box",
+      winLevel: false
     }
   },
   props:{
@@ -52,9 +53,10 @@ export default {
       start:0,
       center:0
     },
-    winLevel: Boolean
+    winLevelFromParent: Boolean
   },
   created(){
+    this.winLevel = this.winLevelFromParent
     if (this.winLevel) {
       this.extraClass = "inp-box win"
       for (let i = 0; i < this.word.word.length; i++) {
@@ -84,6 +86,7 @@ export default {
       return (pos >= this.coords.start) && (pos < this.coords.start + this.word.word.length )
     },
     handleBlur(car){
+      if (this.winLevel) {return}
       if (this.caracters[car] != "") {
         this.res[car] = this.caracters[car]
         if (this.completeAnswer()) {

@@ -6,7 +6,7 @@
         :key="word.docId"
         :word="word"
         :coords="{ center: level.center, start: calculatedCenter(word) }"
-        :winLevel="passedWords[level.words.indexOf(word)]"
+        :winLevelFromParent="passedWords[level.words.indexOf(word)]"
         v-on:focused="selectWord(word)"
         v-on:success="nextWordFocus(word)"
         :ref="word"
@@ -45,7 +45,8 @@ export default {
         hint: "",
         center: 0
       },
-      passedWords: []
+      passedWords: [],
+      focusFlag: false
     };
   },
   async created() {
@@ -55,6 +56,7 @@ export default {
       this.level = await this.getLevel()
       this.level.words = await this.getWords()
       this.setPassedWords()
+      this.focusFlag = true
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
       this.$store.commit("DEACTIVATE_LOADING")
     } catch (error) {
@@ -64,8 +66,9 @@ export default {
     }
   },
   updated(){
-    if (!this.$store.state.loading) {
+    if (this.focusFlag) {
       this.focusFirst()
+      this.focusFlag = false
     }
   },
   methods: {
@@ -113,11 +116,13 @@ export default {
     },
     nextWordFocus(word){
       let index = this.level.words.indexOf(word) + 1
+      this.$store.dispatch('pass_word', index - 1)
       this.wins++
       if (index < this.level.words.length) {
         this.$refs[`${ this.level.words[index] }`][index].focusToFirst()
       } else {
-        if (this.wins == (this.level.words.length * 2)) {
+        if (!this.$store.state.user.words.includes(false)) {
+          this.$store.dispatch('pass_level', this.level.level + 1)
           this.$store.commit('ACTIVE_SNACK', "Nivel completado")
           this.$router.push("/world/"+this.$route.params.worldId)
         }

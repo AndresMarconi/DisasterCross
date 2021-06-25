@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { topics } from '@/firebase.js'
+import { topics, users } from '@/firebase.js'
 
 Vue.use(Vuex)
 
@@ -86,10 +86,42 @@ export default new Vuex.Store({
     },
     'SET_WORLD_PASSED'(state, world) {
       state.user.passedWorlds.push(world)
+    },
+    'SET_LEVEL_PASSED'(state, level) {
+      state.user.level = level
+    },
+    'SET_WORD_PASSED'(state, pos) {
+      state.user.words[pos] = true
+    },
+    'CLEAN_WORD'(state) {
+      state.user.words = []
     }
     
   },
   actions: {
+    pass_word ({ commit, state }, pos) {
+      commit('SET_WORD_PASSED', pos)
+      users.doc(state.user.name)
+      .update({
+        words: state.user.words
+      }).then(() => {
+        console.log('passes')
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    pass_level ({ commit, state }, level) {
+      commit('SET_LEVEL_PASSED', level)
+      commit('CLEAN_WORD')
+      users.doc(state.user.name)
+      .update({
+        level: state.user.level
+      }).then(() => {
+        console.log('passes level')
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   },
   modules: {
   }
