@@ -35,29 +35,48 @@ export default {
   },
   methods:{
     async play(){
-
-      await users.doc(this.name).get().then((doc) => {
-          if (doc.exists) {
-            this.$store.commit(
-              "SET_USER",
-              {name: this.name,
-              ...doc.data()}
-            )
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "existe"
-            );
-          } else {
-            this.$store.commit(
-              "ACTIVE_SNACK",
-              "no existe"
-            );
-          }
+      await users.doc(this.name)
+      .get()
+      .then( async (doc) => {
+        if (doc.exists) {
+          this.$store.commit(
+            "SET_USER",
+            {name: this.name,
+            ...doc.data()}
+          )
+          this.$store.commit(
+            "ACTIVE_SNACK",
+            `Bienvenido de nuevo ${this.name}`
+          );
+          this.$router.push("/play");
+        } else {
+          await users.doc(this.name)
+            .set({ 
+              world: "Tsunami",
+              level: "1",
+              words: [false, false, false, false, false]
+            })
+            .then(() => {
+              this.$store.commit(
+                "ACTIVE_SNACK",
+                `Bienvenido a DissasterCross ${this.name}`
+              );
+            })
+            .catch(() => {
+              this.$store.commit(
+                "ACTIVE_SNACK",
+                "Se produjo un error al registrarte, Intente nuevamente"
+              );
+            });
+        }
       }).catch((error) => {
           console.log("Error getting document:", error);
+          this.$store.commit(
+            "ACTIVE_SNACK",
+            "Se produjo un error al registrarte, Intente nuevamente"
+          );
       });
 
-      this.$router.push("/play");
     },
   },
   created(){
