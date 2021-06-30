@@ -122,7 +122,11 @@ export default {
         this.$refs[`${ this.level.words[index] }`][index].focusToFirst()
       } else {
         if (!this.$store.state.user.words.includes(false)) {
-          this.$store.dispatch('pass_level', this.level.level + 1)
+          if (this.level.level == 5) {
+            this.$store.commit('INVERT_WORDFINISHEDFLAG')
+          } else {
+            this.$store.dispatch('pass_level', parseInt(this.level.level) + 1)
+          }
           this.$store.commit('ACTIVE_SNACK', "Nivel completado")
           this.$router.push("/world/"+this.$route.params.worldId)
         }

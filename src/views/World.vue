@@ -76,6 +76,12 @@ export default {
     }
   },
   async created(){
+    console.log(this.$store.state.wordFinishedFlag)
+    if (this.$store.state.wordFinishedFlag) {
+      this.$store.commit('SET_WORLD_PASSED', this.world.name)
+      this.$router.push("/play")
+      return
+    }
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Niveles");
     try {

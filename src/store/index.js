@@ -18,7 +18,8 @@ export default new Vuex.Store({
       level: "",
       words: [],
       passedWorlds: []
-    }
+    },
+    wordFinishedFlag: false
   },
   mutations: {
     'SET_PAGE_TITLE'(state, name) {
@@ -95,6 +96,9 @@ export default new Vuex.Store({
     },
     'CLEAN_WORD'(state) {
       state.user.words = []
+    },
+    'INVERT_WORDFINISHEDFLAG'(state){
+      state.wordFinishedFlag = !state.wordFinishedFlag
     }
     
   },
@@ -115,9 +119,25 @@ export default new Vuex.Store({
       commit('CLEAN_WORD')
       users.doc(state.user.name)
       .update({
-        level: state.user.level
+        level: state.user.level,
+        words: []
       }).then(() => {
         console.log('passes level')
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    pass_world ({ commit, state }, world) {
+      commit('INVERT_WORDFINISHEDFLAG')
+      commit('SET_LEVEL_PASSED', 1)
+      commit('CLEAN_WORD')
+      users.doc(state.user.name)
+      .update({
+        world: world,
+        level: state.user.level,
+        words: []
+      }).then(() => {
+        console.log('passes world')
       }).catch((error) => {
         console.log(error)
       })
