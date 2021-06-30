@@ -1,24 +1,15 @@
-# disastercross
+# Disastercross
 
-## Project setup
-```
-npm install
-```
+## What is DisasterCross:
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+DisasterCross is a web-based game aimed to educate people on what happens during a natural disaster and provide information on how to react to different situations.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Game objective
 
-### Lints and fixes files
-```
-npm run lint
-```
+Like all acrostics, you must complete the word that correspond to each row using the hint provided.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## State of Development
+
+DisasterCross is currently under development as part of a UNLP's Computer Science course. 
+
+A live demo can be found here: https://disaster-cross.vercel.app/
