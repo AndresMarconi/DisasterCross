@@ -37,7 +37,6 @@ export default {
         world.extraClass = "passedSelector"
         if (world.name == this.$store.state.user.world) { this.lastFlag = true }
       } else {
-        console.log(this.$store.state.wordFinishedFlag)
         if (this.$store.state.wordFinishedFlag) {
           this.$store.dispatch('pass_world', world.name)
           world.extraClass = "passedSelector"

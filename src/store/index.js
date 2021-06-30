@@ -92,7 +92,18 @@ export default new Vuex.Store({
       state.user.level = level
     },
     'SET_WORD_PASSED'(state, pos) {
+      let len = state.user.words.length
+      // check if the position is not the next and complete the array with false
+      if ((len) < pos) {
+        for (let index = len; index < pos; index++) {
+          state.user.words.push(false)
+        }
+      }
+      // after that add the element in the position
       state.user.words[pos] = true
+
+      console.log('en la mutacion')
+      console.log(state.user.words)
     },
     'CLEAN_WORD'(state) {
       state.user.words = []
@@ -105,6 +116,8 @@ export default new Vuex.Store({
   actions: {
     pass_word ({ commit, state }, pos) {
       commit('SET_WORD_PASSED', pos)
+      console.log('en la action')
+      console.log(state.user.words)
       users.doc(state.user.name)
       .update({
         words: state.user.words

@@ -136,12 +136,14 @@ export default {
       this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
     },
     setPassedWords(){
+      console.log(this.$store.state.user.words)
       if (this.level.level < this.$store.state.user.level) {
         this.level.words.forEach(word => {
           word.hint
           this.passedWords.push(true)
         });
       } else {
+        console.log(this.$store.state.user.words + ' en el else')
         this.passedWords = this.$store.state.user.words
       }
     }

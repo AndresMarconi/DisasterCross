@@ -60,7 +60,7 @@ export default {
         });
         return auxlevels;
       });
-      return levels.reverse()
+      return this.sortLevels(levels)
     },
     passed(level){
       if (this.$store.state.user.passedWorlds.includes(this.world.name)) {
@@ -71,21 +71,25 @@ export default {
         } else {
           level.extraClass = "notPassedSelector"
         }
-      }
-        
+      } 
+    },
+    sortLevels(levels){
+      levels.sort((level1, level2) => {
+        return level1.level - level2.level  
+      }) 
+      return levels
     }
   },
   async created(){
-    console.log(this.$store.state.wordFinishedFlag)
-    if (this.$store.state.wordFinishedFlag) {
-      this.$store.commit('SET_WORLD_PASSED', this.world.name)
-      this.$router.push("/play")
-      return
-    }
     this.$store.commit("ACTIVATE_LOADING")
     this.$store.commit("SET_PAGE_TITLE", "Cargando Niveles");
     try {
       this.world = await this.getWorld()
+      if (this.$store.state.wordFinishedFlag) {
+        this.$store.commit('SET_WORLD_PASSED', this.world.name)
+        this.$router.push("/play")
+        return
+      }
       this.world.levels = await this.getLevels()
       this.$store.commit("SET_PAGE_TITLE", this.world.name);
       this.$store.commit("DEACTIVATE_LOADING")
