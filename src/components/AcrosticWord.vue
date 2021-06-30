@@ -52,12 +52,22 @@ export default {
     coords:{
       start:0,
       center:0
-    }
+    },
+    winLevelFromParent: Boolean
   },
   created(){
-    for (let i = 0; i < this.word.word.length; i++) {
-      this.caracters.push("")
+    this.winLevel = this.winLevelFromParent
+    if (this.winLevel) {
+      this.extraClass = "inp-box win"
+      for (let i = 0; i < this.word.word.length; i++) {
+        this.caracters.push(this.word.word[i])
+      }
+    } else {
+      for (let i = 0; i < this.word.word.length; i++) {
+        this.caracters.push("")
+      }
     }
+    
   },
   mounted(){
     for (let i = 0; i < this.word.word.length; i++) {
@@ -76,6 +86,7 @@ export default {
       return (pos >= this.coords.start) && (pos < this.coords.start + this.word.word.length )
     },
     handleBlur(car){
+      if (this.winLevel) {return}
       if (this.caracters[car] != "") {
         this.res[car] = this.caracters[car]
         if (this.completeAnswer()) {

@@ -21,7 +21,7 @@ const db = firebase.firestore();
 
 // collection references
 const topics = db.collection("topics");
-const levels = db.collection("levels");
+const users = db.collection("users");
 
 
 // export utils/refs
@@ -29,5 +29,5 @@ export {
   firebase,
   db,
   topics,
-  levels
+  users
 };

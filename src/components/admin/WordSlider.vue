@@ -117,6 +117,12 @@ export default {
             this.$store.commit( "ACTIVE_SNACK", "Se produjo un error al actualizar la palabra, Intente nuevamente" );
           });
       } else {
+        //fix a really annoying bug
+        if (!this.world.docId || !this.level.docId) {
+          this.$store.commit( "ACTIVE_SNACK", "No hay nivel o mundo seleccionado vuelva a seleccionarlos por favor");
+          this.close();
+          return 
+        }
         await topics.doc(this.world.docId).collection("levels").doc(this.level.docId).collection("words")
           .add(this.editedWord)
           .then((data) => {

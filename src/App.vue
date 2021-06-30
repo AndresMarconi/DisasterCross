@@ -13,14 +13,11 @@
           v-on:click="goToHome"
         />
       </div>
-
       <v-spacer></v-spacer>
-
       <v-btn @click="goBack" text>
         <span class="mr-2">Volver</span>
       </v-btn>
     </v-app-bar>
-
     <v-main class="myMain">
       <v-container class="principalBack">
         <v-row class="d-flex flex-column align-center justify-center py-3">
@@ -43,17 +40,16 @@
         </v-container>
       </v-container>
     </v-main>
-    <v-snackbar :model="$store.state.snackBar" :timeout="4000" top>
-      {{ $store.state.snackText }}
-    </v-snackbar>
+    <SnackBar />
   </v-app>
 </template>
 
 <script>
 import a11yChecker from 'a11y-checker';
+import SnackBar from '@/components/SnackBar.vue';
 export default {
   name: "App",
-  components: {},
+  components: {SnackBar},
   methods: {
     goBack(){
       this.$router.go(-1)
@@ -81,4 +77,5 @@ export default {
     min-height: 80vh;
     background-color: darkgray;
   }
+
 </style>
