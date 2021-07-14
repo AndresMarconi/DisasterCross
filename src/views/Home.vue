@@ -32,6 +32,11 @@ export default {
     makeRoute(id){
       return "/world/" + id
     },
+    setPassed(worlds){
+      worlds.forEach((world) => {
+        this.passed(world)
+      })
+    },
     passed(world){
       if (!this.lastFlag) {
         world.extraClass = "passedSelector"
@@ -44,6 +49,21 @@ export default {
           world.extraClass = "notPassedSelector"
         }
       }
+    },
+    sortWorlds(worlds){
+      worlds.sort((world1, world2) => {
+        if (world1.name == "Inundación") {
+         return -1 
+        } else {
+          if (world2.name == "Inundación") {
+            return 1   
+          } else {
+            return 0
+          }
+        }
+      }) 
+      this.setPassed(worlds)
+      return worlds
     }
   },
   async created(){
@@ -57,11 +77,11 @@ export default {
           let aux = doc.data()
           aux.docId = doc.id
           aux.levels = []
-          this.passed(aux)
+          //this.passed(aux)
           auxworlds.push(aux)
         })
         this.$store.commit("DEACTIVATE_LOADING")
-        return auxworlds
+        return this.sortWorlds(auxworlds)
       });
     } catch (error) {
       this.$store.commit("DEACTIVATE_LOADING")
