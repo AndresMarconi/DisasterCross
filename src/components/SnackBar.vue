@@ -1,6 +1,6 @@
 <template>
     <div class="mySnackbar" v-show="$store.state.snackBar">
-      <h3 role="alert">{{$store.state.snackText}}</h3>
+      <h4 role="alert">{{$store.state.snackText}}</h4>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   .mySnackbar{
     position: absolute;
     top: 10vh;
-    left: 40vw;
+    left: 75vw;
     background-color: black;
     color: azure;
     min-width: 20vw;

@@ -52,15 +52,24 @@ export default {
         } else {
           await users.doc(this.name)
             .set({ 
-              world: "Tsunami",
+              world: "Inundación",
               level: "1",
-              words: [false, false, false, false, false]
+              words: [false, false, false, false, false, false, false]
             })
             .then(() => {
+              this.$store.commit(
+                "SET_USER",
+                {name: this.name,
+                 world: 'Inundación',
+                 level: 1,
+                 words: [false, false, false, false, false, false, false]
+                }
+              )
               this.$store.commit(
                 "ACTIVE_SNACK",
                 `Bienvenido a DissasterCross ${this.name}`
               );
+              this.$router.push("/play");
             })
             .catch(() => {
               this.$store.commit(

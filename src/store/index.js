@@ -102,7 +102,6 @@ export default new Vuex.Store({
       // after that add the element in the position
       state.user.words[pos] = true
 
-      console.log('en la mutacion')
       console.log(state.user.words)
     },
     'CLEAN_WORD'(state) {
@@ -116,7 +115,6 @@ export default new Vuex.Store({
   actions: {
     pass_word ({ commit, state }, pos) {
       commit('SET_WORD_PASSED', pos)
-      console.log('en la action')
       console.log(state.user.words)
       users.doc(state.user.name)
       .update({
