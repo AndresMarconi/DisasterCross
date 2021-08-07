@@ -21,9 +21,11 @@
     <v-main class="myMain">
       <v-container class="principalBack">
         <v-row class="d-flex flex-column align-center justify-center py-3">
-          <h1>
-            {{ $store.state.page }}
-          </h1>
+          <div class="title">
+            <h1 role="alert">
+              {{ $store.state.page }}
+            </h1>
+          </div>
           <v-progress-circular
             class="my-5"
             v-if="$store.state.loading"
@@ -75,7 +77,15 @@ export default {
 
   .principalBack{
     min-height: 80vh;
-    background-color: darkgray;
+    background: url("./assets/disaster-select.jpg");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+  }
+
+  .title{
+    background-color:rgba(102, 92, 92, 0.5);
+    padding: 1rem;
   }
 
 </style>

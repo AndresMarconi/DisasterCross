@@ -170,10 +170,23 @@ export default {
   }
 
   .win{
-    background-color: green
+    background-color: green;
+  }
+
+  .win .v-input__control .v-input__slot{
+    background-color:rgba(28, 194, 50, 0.5) !important;
+  }
+
+  .win .v-input__control .v-input__slot .v-text-field__slot input{
+    color:black;
   }
 
   .lose{
-    background-color: red
+    background-color: red;
   }
+
+  .lose .v-input__control .v-input__slot{
+    background-color:rgba(253, 4, 4, 0.5) !important;
+  }
+
 </style>

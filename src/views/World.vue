@@ -9,7 +9,7 @@
             <router-link v-if="level.extraClass == 'passedSelector'" :to="makeRoute(level.docId)">
               Nivel {{level.level}}
             </router-link>
-            <h5 v-else style="color: white"> {{level.level}} </h5>
+            <h5 v-else style="color: white"> Nivel {{level.level}} </h5>
           </div>
           <div class="first-line"></div>
           <div class="second-line"></div>
@@ -114,7 +114,14 @@ export default {
   $margin5: random(40)
   
   .passedSelector
-    background-color: aquamarine
+    background-color: rgb(25, 118, 210)
+
+  .passedSelector a
+    text-decoration: none
+    color: black
+    font-weight: bold
+    &:visited 
+      text-decoration: none
 
   .notPassedSelector
     background-color: black

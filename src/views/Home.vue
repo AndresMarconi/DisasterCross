@@ -100,17 +100,16 @@ export default {
   $margin3: random(40)
   $margin4: random(40) 
   $margin5: random(40)
-
-  $a-tags: 'a a:visited'
  
   .passedSelector a
     text-decoration: none
     color: black
+    font-weight: bold
     &:visited 
       text-decoration: none
 
   .passedSelector
-    background-color: aquamarine
+    background-color: rgb(25, 118, 210)
 
   .notPassedSelector
     background-color: black
