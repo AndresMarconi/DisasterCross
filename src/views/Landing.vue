@@ -7,8 +7,8 @@
           ref="form"
           v-model="valid"
         > 
-          <v-text-field v-model="name" :rules="nameRules" label="Nombre de usuario" color="white" solo></v-text-field>
-          <v-btn :disabled="!valid" color="primary" class="button" @click="play" >Jugar</v-btn>
+          <v-text-field v-model="name" :rules="nameRules" label="Ingrese su nombre" color="white" solo></v-text-field>
+          <v-btn :disabled="!valid" color="primary" class="button" @click="play" >Iniciar Juego</v-btn>
         </v-form>
         <HowToPlay />
       </v-col>
@@ -89,7 +89,7 @@ export default {
     },
   },
   created(){
-    this.$store.commit("SET_PAGE_TITLE", "DisasterCross");
+    this.$store.commit("SET_PAGE_TITLE", "Bienvenido a DisasterCross");
   }
 }
 </script>

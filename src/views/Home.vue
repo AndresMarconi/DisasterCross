@@ -68,7 +68,7 @@ export default {
   },
   async created(){
     this.$store.commit("ACTIVATE_LOADING")
-    this.$store.commit("SET_PAGE_TITLE", "Desastres");
+    this.$store.commit("SET_PAGE_TITLE", "Seleccione un desastre natural");
     try {
       this.worlds = await topics.get()
       .then((querySnapshot) => {
