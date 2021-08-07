@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     page: "home",
+    pagehide: false,
     loading: false,
     snackBar: false,
     snackText: "",
@@ -23,7 +24,9 @@ export default new Vuex.Store({
   },
   mutations: {
     'SET_PAGE_TITLE'(state, name) {
+      state.pagehide = true;
       state.page = name;
+      state.pagehide = false;
     },
     'ACTIVE_SNACK': (state, text) => {
       state.snackBar = true,

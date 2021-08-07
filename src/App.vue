@@ -22,7 +22,7 @@
       <v-container class="principalBack">
         <v-row class="d-flex flex-column align-center justify-center py-3">
           <div class="title">
-            <h1 role="alert">
+            <h1 :hidden="$store.state.pagehide" role="alert">
               {{ $store.state.page }}
             </h1>
           </div>
