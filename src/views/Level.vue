@@ -15,7 +15,7 @@
     
     <v-container class="desc-container d-flex flex-column align-center">
       <h2>Pista</h2>
-      <p>
+      <p role="alert" :hidden="hideHint" >
         {{ currentWord.hint }}
       </p>
     </v-container>
@@ -46,7 +46,8 @@ export default {
         center: 0
       },
       passedWords: [],
-      focusFlag: false
+      focusFlag: false,
+      hideHint: false
     };
   },
   async created() {
@@ -102,7 +103,9 @@ export default {
     },
     selectWord(word) {
       if (this.currentWord.word != word.word) {
+        this.hideHint = true
         this.currentWord = word;
+        setTimeout(function(){ this.hideHint = false }, 1000)  
       }
     },
     calculatedCenter(word) {
