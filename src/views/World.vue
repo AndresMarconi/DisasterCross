@@ -7,7 +7,7 @@
         class="d-flex fill-height justify-center  level-column py-5">
           <div :class="'d-flex align-center justify-center levelSelector ' + level.extraClass">
             <router-link v-if="level.extraClass == 'passedSelector'" :to="makeRoute(level.docId)">
-              {{level.level}}
+              Nivel {{level.level}}
             </router-link>
             <h5 v-else style="color: white"> {{level.level}} </h5>
           </div>
