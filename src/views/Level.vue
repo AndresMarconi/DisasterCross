@@ -105,7 +105,7 @@ export default {
       if (this.currentWord.word != word.word) {
         this.hideHint = true
         this.currentWord = word;
-        setTimeout(function(){ this.hideHint = false }, 1000)  
+        setTimeout(() => { this.hideHint = false }, 1000)  
       }
     },
     calculatedCenter(word) {
