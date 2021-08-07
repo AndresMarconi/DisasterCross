@@ -26,7 +26,7 @@ export default new Vuex.Store({
     'SET_PAGE_TITLE'(state, name) {
       state.pagehide = true;
       state.page = name;
-      state.pagehide = false;
+      setTimeout(function(){ state.pagehide = false }, 1000);
     },
     'ACTIVE_SNACK': (state, text) => {
       state.snackBar = true,
