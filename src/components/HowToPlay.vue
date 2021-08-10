@@ -9,7 +9,7 @@
           <h2 class="headline text-center">¿Como jugar DissasterCross?</h2>
         </v-card-title>
         <v-card-text>
-          <p role="alert" class="body-1 text-center">
+          <p role="alert" class="body-1 text-center" :hidden="hideHint">
             Seleccione el mundo y el nivel mas avanzado posible, desafíe su conocimiento sobre catástrofes y cómo reaccionar frente a una.
             <br><br>
             Completa las palabras del acróstico utilizando la descripción que aparece en pantalla.
@@ -25,7 +25,8 @@ export default {
   name: 'HowToPlay',
   data() {
     return {
-      dialog: false
+      dialog: false,
+      hideHint: false
     }
   },
   watch: {
@@ -36,6 +37,10 @@ export default {
   methods:{
     open(){
       this.dialog = true
+      this.hideHint = true;
+        setTimeout(() => {
+          this.hideHint = false;
+        }, 1000);
     },
     close () {
       this.dialog = false
