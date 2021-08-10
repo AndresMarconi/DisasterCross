@@ -3,7 +3,7 @@
     <v-col class="d-flex flex-column align-end"> 
       <v-btn class="info" @click="open">Configuracion</v-btn>
     </v-col>
-    <v-dialog class="d-flex align-center justify-center" v-model="dialog">
+    <v-dialog role="dialog" class="d-flex align-center justify-center" v-model="dialog">
       <v-card class="d-flex flex-column align-center" >
         <v-card-title > 
           <h2 class="headline text-center">Seleccione el tamaño de fuente deseado</h2>

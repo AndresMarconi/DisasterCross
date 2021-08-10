@@ -15,7 +15,7 @@
         />
       </div>
       <v-spacer aria-hidden="true"></v-spacer>
-      <Configuration />
+      <Configuration role="button" />
       <v-btn class="info ma-2" role="button" @click="goBack" text>
         Volver
       </v-btn>
