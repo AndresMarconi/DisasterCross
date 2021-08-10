@@ -1,6 +1,12 @@
 <template>
   <v-container class="d-flex flex-column justify-center">
-    <Scroller v-if="level.words[0]" :elementHeigth="40" :elementsSize="level.words.length" :the120="60" :the40="20"> 
+    <Scroller
+      v-if="level.words[0]"
+      :elementHeigth="40"
+      :elementsSize="level.words.length + 2"
+      :the120="70"
+      :the40="30"
+    >
       <AcrosticWord
         v-for="word in level.words"
         :key="word.docId"
@@ -12,10 +18,10 @@
         :ref="word"
       />
     </Scroller>
-    
+
     <v-container class="desc-container d-flex flex-column align-center">
       <h2>Pista</h2>
-      <p role="alert" :hidden="hideHint" >
+      <p role="alert" :hidden="hideHint">
         {{ currentWord.hint }}
       </p>
     </v-container>
@@ -30,125 +36,134 @@ export default {
   name: "level",
   components: {
     AcrosticWord,
-    Scroller
+    Scroller,
   },
   data() {
     return {
       wins: 0,
-      level:{
+      level: {
         level: 0,
         center: 0,
-        words: []
+        words: [],
       },
       currentWord: {
         word: "",
         hint: "",
-        center: 0
+        center: 0,
       },
       passedWords: [],
       focusFlag: false,
-      hideHint: false
+      hideHint: false,
     };
   },
   async created() {
-    this.$store.commit("ACTIVATE_LOADING")
+    this.$store.commit("ACTIVATE_LOADING");
     this.$store.commit("SET_PAGE_TITLE", "Cargando Palabras");
     try {
-      this.level = await this.getLevel()
-      this.level.words = await this.getWords()
-      this.setPassedWords()
-      this.focusFlag = true
+      this.level = await this.getLevel();
+      this.level.words = await this.getWords();
+      this.setPassedWords();
+      this.focusFlag = true;
       this.$store.commit("SET_PAGE_TITLE", `Nivel ${this.level.level}`);
-      this.$store.commit("DEACTIVATE_LOADING")
+      this.$store.commit("DEACTIVATE_LOADING");
     } catch (error) {
-      console.log(error)
-      this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el nivel :(")
-      this.$store.commit("DEACTIVATE_LOADING")
+      console.log(error);
+      this.$store.commit("ACTIVE_SNACK", "Hubo un problema con el nivel :(");
+      this.$store.commit("DEACTIVATE_LOADING");
     }
   },
-  updated(){
+  updated() {
     if (this.focusFlag) {
-      this.focusFirst()
-      this.focusFlag = false
+      this.focusFirst();
+      this.focusFlag = false;
     }
   },
   methods: {
-    async getLevel(){
-      let level = await topics.doc(this.$route.params.worldId).collection("levels").doc(this.$route.params.levelId)
-      .get()
-      .then((doc) => {
-        let auxLevel={
-          docId: doc.id,
-          level: doc.data().level,
-          center: doc.data().center,
-          words: []
-        }
-        return auxLevel
-      })
-      return level
-    },
-    async getWords(){
-      let words = await topics.doc(this.$route.params.worldId).collection("levels").doc(this.$route.params.levelId).collection("words")
-      .get()
-      .then((querySnapshot) => {
-        let auxwords = [];
-        querySnapshot.forEach((doc) => {
-          let word = doc.data();
-          word.docId = doc.id;
-          auxwords.push(word);
+    async getLevel() {
+      let level = await topics
+        .doc(this.$route.params.worldId)
+        .collection("levels")
+        .doc(this.$route.params.levelId)
+        .get()
+        .then((doc) => {
+          let auxLevel = {
+            docId: doc.id,
+            level: doc.data().level,
+            center: doc.data().center,
+            words: [],
+          };
+          return auxLevel;
         });
-        return auxwords;
-      });
-      return this.orderByIndex(words)
+      return level;
+    },
+    async getWords() {
+      let words = await topics
+        .doc(this.$route.params.worldId)
+        .collection("levels")
+        .doc(this.$route.params.levelId)
+        .collection("words")
+        .get()
+        .then((querySnapshot) => {
+          let auxwords = [];
+          querySnapshot.forEach((doc) => {
+            let word = doc.data();
+            word.docId = doc.id;
+            auxwords.push(word);
+          });
+          return auxwords;
+        });
+      return this.orderByIndex(words);
     },
     selectWord(word) {
       if (this.currentWord.word != word.word) {
-        this.hideHint = true
+        this.hideHint = true;
         this.currentWord = word;
-        setTimeout(() => { this.hideHint = false }, 1000)  
+        setTimeout(() => {
+          this.hideHint = false;
+        }, 1000);
       }
     },
     calculatedCenter(word) {
       return this.level.center - (word.center - 1);
     },
-    orderByIndex(words){
+    orderByIndex(words) {
       words.sort((word1, word2) => {
-        return word1.index - word2.index  
-      }) 
-      return words
+        return word1.index - word2.index;
+      });
+      return words;
     },
-    nextWordFocus(word){
-      let index = this.level.words.indexOf(word) + 1
-      this.$store.dispatch('pass_word', index - 1)
-      this.wins++
+    nextWordFocus(word) {
+      let index = this.level.words.indexOf(word) + 1;
+      this.$store.dispatch("pass_word", index - 1);
+      this.wins++;
       if (index < this.level.words.length) {
-        this.$refs[`${ this.level.words[index] }`][index].focusToFirst()
+        this.$refs[`${this.level.words[index]}`][index].focusToFirst();
       } else {
         if (!this.$store.state.user.words.includes(false)) {
           if (this.level.level == 5) {
-            this.$store.commit('INVERT_WORDFINISHEDFLAG')
+            this.$store.commit("INVERT_WORDFINISHEDFLAG");
           } else {
-            this.$store.dispatch('pass_level', parseInt(this.level.level) + 1)
+            this.$store.dispatch("pass_level", parseInt(this.level.level) + 1);
           }
-          this.$store.commit('ACTIVE_SNACK', "Nivel completado")
-          this.$router.push("/world/"+this.$route.params.worldId)
+          this.$store.commit("ACTIVE_SNACK", "Nivel completado");
+          this.$router.push("/world/" + this.$route.params.worldId);
         }
       }
     },
-    focusFirst(){
-      this.$refs[`${ this.level.words[0] }`][0].focusToFirst()    
+    focusFirst() {
+      this.$refs[`${this.level.words[0]}`][0].focusToFirst();
     },
-    setPassedWords(){
+    setPassedWords() {
       if (this.level.level < this.$store.state.user.level) {
-        this.level.words.forEach(word => {
-          word.hint
-          this.passedWords.push(true)
+        this.level.words.forEach((word) => {
+          word.hint;
+          this.passedWords.push(true);
         });
       } else {
-        this.passedWords = this.$store.state.user.words
+        this.passedWords = this.$store.state.user.words;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

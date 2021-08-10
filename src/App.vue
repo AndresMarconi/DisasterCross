@@ -47,45 +47,53 @@
 </template>
 
 <script>
-import a11yChecker from 'a11y-checker';
-import SnackBar from '@/components/SnackBar.vue';
+import a11yChecker from "a11y-checker";
+import SnackBar from "@/components/SnackBar.vue";
 export default {
   name: "App",
-  components: {SnackBar},
+  components: { SnackBar },
   methods: {
-    goBack(){
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
     goToAdmin() {
       this.$router.push("admin");
     },
     goToHome() {
       this.$router.push("/");
-    }
+    },
   },
-  updated(){
+  updated() {
     a11yChecker();
-  }
+  },
 };
 </script>
 
-<style scoped>
-  .myMain{
-    display: flex;
-    align-items: center
-  }
+<style lang="scss">
+@import "sass/variables";
 
-  .principalBack{
-    min-height: 80vh;
-    background: url("./assets/disaster-select.jpg");
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover;
-  }
+html {
+  font-size: map-get($font, big-size) !important;
+}
 
-  .title{
-    background-color:rgba(102, 92, 92, 0.5);
-    padding: 1rem;
-  }
+input {
+  text-align: center;
+  font-size: map-get($font, big-size) !important;
+}
 
+.myMain {
+  display: flex;
+  align-items: center;
+}
+.principalBack {
+  min-height: 80vh;
+  background: url("./assets/disaster-select.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.title {
+  background-color: rgba(102, 92, 92, 0.5);
+  padding: 1rem;
+}
 </style>
