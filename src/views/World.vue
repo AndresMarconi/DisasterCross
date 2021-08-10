@@ -11,8 +11,8 @@
             </router-link>
             <h5 v-else style="color: white"> Nivel {{level.level}} </h5>
           </div>
-          <div class="first-line"></div>
-          <div class="second-line"></div>
+          <div aria-hidden="true" class="first-line"></div>
+          <div aria-hidden="true" class="second-line"></div>
       </v-col>
     </v-row>
   </v-container>
@@ -104,7 +104,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
   $selector_size: 16vh
   $distance: 4vw
   $margin1: random(40)
@@ -115,27 +114,22 @@ export default {
   
   .passedSelector
     background-color: rgb(25, 118, 210)
-
   .passedSelector a
     text-decoration: none
     color: black
     font-weight: bold
     &:visited 
       text-decoration: none
-
   .notPassedSelector
     background-color: black
-
   .levelSelector
     width: $selector_size
     height: $selector_size
     border-radius: 100%
-
   .level-column
     margin: 0
     padding: 0
     flex-grow: 0
-
   @for $i from 1 through 5
     $m1: 0
     $m2: 0
@@ -154,7 +148,6 @@ export default {
     @else if $i == 5
       $m1: $margin5
       $m2: $margin5
-
     @if ($m1 < $m2)
       $height: ($m2 - $m1)
       .level-column:nth-child(#{$i})
@@ -208,5 +201,4 @@ export default {
             width: $distance
             border-bottom: solid
             height: ($selector_size / 2)
-
 </style>

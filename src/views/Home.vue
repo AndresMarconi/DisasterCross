@@ -11,8 +11,8 @@
             </router-link>
             <h5 v-else style="color: white"> {{world.name}} </h5>
           </div>
-          <div class="first-line"></div>
-          <div class="second-line"></div>
+          <div aria-hidden="true" class="first-line"></div>
+          <div aria-hidden="true" class="second-line"></div>
       </v-col>
     </v-row>
   </v-container>

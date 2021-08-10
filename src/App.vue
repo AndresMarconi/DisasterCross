@@ -3,6 +3,7 @@
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
+          role="img"
           alt="Bienvenido a DisasterCross"
           class="shrink mr-2"
           contain
@@ -13,8 +14,8 @@
           v-on:click="goToHome"
         />
       </div>
-      <v-spacer></v-spacer>
-      <v-btn @click="goBack" text>
+      <v-spacer aria-hidden="true"></v-spacer>
+      <v-btn role="button" @click="goBack" text>
         <span class="mr-2">Volver</span>
       </v-btn>
     </v-app-bar>
@@ -27,6 +28,7 @@
             </h1>
           </div>
           <v-progress-circular
+            aria-hidden="true"
             class="my-5"
             v-if="$store.state.loading"
             indeterminate
