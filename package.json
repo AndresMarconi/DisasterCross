@@ -25,6 +25,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vuejs-accessibility": "^0.7.1",
     "sass": "^1.32.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "^2.3.1",
@@ -36,9 +37,11 @@
     "env": {
       "node": true
     },
+    "plugins": ["vuejs-accessibility"],
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:vuejs-accessibility/recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"

@@ -15,8 +15,9 @@
         />
       </div>
       <v-spacer aria-hidden="true"></v-spacer>
-      <v-btn role="button" @click="goBack" text>
-        <span class="mr-2">Volver</span>
+      <Configuration />
+      <v-btn class="info ma-2" role="button" @click="goBack" text>
+        Volver
       </v-btn>
     </v-app-bar>
     <v-main class="myMain">
@@ -51,9 +52,10 @@
 <script>
 import a11yChecker from "a11y-checker";
 import SnackBar from "@/components/SnackBar.vue";
+import Configuration from "@/components/Configuration.vue";
 export default {
   name: "App",
-  components: { SnackBar },
+  components: { SnackBar, Configuration },
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -73,15 +75,6 @@ export default {
 
 <style lang="scss">
 @import "sass/variables";
-
-html {
-  font-size: map-get($font, big-size) !important;
-}
-
-input {
-  text-align: center;
-  font-size: map-get($font, big-size) !important;
-}
 
 .myMain {
   display: flex;
