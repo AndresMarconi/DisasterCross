@@ -10,9 +10,9 @@
         </v-card-title>
         <v-card-text>
           <p role="alert" class="body-1 text-center" :hidden="hideHint">
-            Select your favorite world and click on the available level, challenge your knowledge and have fun.
+            Select your favourite world and click on the available level, challenge your knowledge and have fun.
             <br><br>
-            Complete the missing word with the hint provided.
+            Complete the missing words with the hints provided.
           </p>
         </v-card-text>
       </v-card>
