@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex justify-center">
     <v-form
-      aria-label="Ingrese caracter"
+      aria-label="Enter character"
       v-for="caracter in 25"
       :key="caracter"
     >
@@ -139,7 +139,7 @@ export default {
           this.caracters.splice(i, 1, this.word.word[i]);
         }
       }
-      this.$store.commit("ACTIVE_SNACK", "Acierto");
+      this.$store.commit("ACTIVE_SNACK", "Correct");
       this.$emit("success");
     },
     lose() {
@@ -148,7 +148,7 @@ export default {
         this.caracters[i] = "";
       }
       this.res = [];
-      this.$store.commit("ACTIVE_SNACK", "Error");
+      this.$store.commit("ACTIVE_SNACK", "Failed");
       setTimeout(() => (this.extraClass = "inp-box"), 1000);
       this.$refs["word0"][0].focus();
     },

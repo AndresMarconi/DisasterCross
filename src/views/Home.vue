@@ -52,10 +52,10 @@ export default {
     },
     sortWorlds(worlds){
       worlds.sort((world1, world2) => {
-        if (world1.name == "Inundación") {
+        if (world1.name == "Flood") {
          return -1 
         } else {
-          if (world2.name == "Inundación") {
+          if (world2.name == "Flood") {
             return 1   
           } else {
             return 0
@@ -68,7 +68,7 @@ export default {
   },
   async created(){
     this.$store.commit("ACTIVATE_LOADING")
-    this.$store.commit("SET_PAGE_TITLE", "Seleccione un desastre natural");
+    this.$store.commit("SET_PAGE_TITLE", "Select a natural disaster");
     try {
       this.worlds = await topics.get()
       .then((querySnapshot) => {

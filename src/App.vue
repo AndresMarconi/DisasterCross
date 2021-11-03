@@ -17,7 +17,7 @@
       <v-spacer aria-hidden="true"></v-spacer>
       <Configuration role="button" />
       <v-btn class="info ma-2" role="button" @click="goBack" text>
-        Volver
+        go back
       </v-btn>
     </v-app-bar>
     <v-main class="myMain">

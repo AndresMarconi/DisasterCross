@@ -9,7 +9,7 @@
             <router-link v-if="level.extraClass == 'passedSelector'" :to="makeRoute(level.docId)">
               Nivel {{level.level}}
             </router-link>
-            <h5 v-else style="color: white"> Nivel {{level.level}} </h5>
+            <h5 v-else style="color: white"> Level {{level.level}} </h5>
           </div>
           <div aria-hidden="true" class="first-line"></div>
           <div aria-hidden="true" class="second-line"></div>
@@ -82,7 +82,7 @@ export default {
   },
   async created(){
     this.$store.commit("ACTIVATE_LOADING")
-    this.$store.commit("SET_PAGE_TITLE", "Cargando Niveles");
+    this.$store.commit("SET_PAGE_TITLE", "Loading levels");
     try {
       this.world = await this.getWorld()
       if (this.$store.state.wordFinishedFlag) {
@@ -95,7 +95,7 @@ export default {
       this.$store.commit("DEACTIVATE_LOADING")
     } catch (error) {
       console.log(error)
-      this.$store.commit('ACTIVE_SNACK', "Hubo un problema con el mundo :(")
+      this.$store.commit('ACTIVE_SNACK', "An error has occurred while loading :(")
       this.$store.commit("DEACTIVATE_LOADING")
     }
     

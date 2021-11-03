@@ -1,18 +1,18 @@
 <template>
   <v-row >
     <v-col class="d-flex flex-column align-center"> 
-      <v-btn @click="open">¿Como jugar?</v-btn>
+      <v-btn @click="open">How To Play?</v-btn>
     </v-col>
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-title class="d-flex justify-center my-5"> 
-          <h2 class="headline text-center">¿Como jugar DissasterCross?</h2>
+          <h2 class="headline text-center">Instructions</h2>
         </v-card-title>
         <v-card-text>
           <p role="alert" class="body-1 text-center" :hidden="hideHint">
-            Seleccione el mundo y el nivel mas avanzado posible, desafíe su conocimiento sobre catástrofes y cómo reaccionar frente a una.
+            Select your favorite world and click on the available level, challenge your knowledge and have fun.
             <br><br>
-            Completa las palabras del acróstico utilizando la descripción que aparece en pantalla.
+            Complete the missing word with the hint provided.
           </p>
         </v-card-text>
       </v-card>

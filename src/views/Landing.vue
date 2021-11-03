@@ -3,7 +3,7 @@
     <v-row class="fill-height">
       <v-col class="d-flex flex-column align-center">
         <v-form
-          aria-label="Ingrese su nombre de usuario"
+          aria-label="Enter a username"
           class="d-flex flex-column align-center"
           ref="form"
           v-model="valid"
@@ -11,12 +11,12 @@
           <v-text-field
             v-model="name"
             :rules="nameRules"
-            label="Ingrese su nombre"
+            label="Enter a username"
             color="white"
             solo
           ></v-text-field>
           <v-btn :disabled="!valid" color="primary" class="button" @click="play"
-            >Iniciar Juego</v-btn
+            >Start Game</v-btn
           >
         </v-form>
         <HowToPlay />
@@ -34,7 +34,7 @@ export default {
     return {
       valid: true,
       name: "",
-      nameRules: [(v) => !!v || "Debe ingresar un nombre"],
+      nameRules: [(v) => !!v || "Please provide a username"],
     };
   },
   components: {
@@ -50,34 +50,34 @@ export default {
             this.$store.commit("SET_USER", { name: this.name, ...doc.data() });
             this.$store.commit(
               "ACTIVE_SNACK",
-              `Bienvenido de nuevo ${this.name}`
+              `Welcome back ${this.name}`
             );
             this.$router.push("/play");
           } else {
             await users
               .doc(this.name)
               .set({
-                world: "Inundación",
+                world: "Flood",
                 level: "1",
                 words: [false, false, false, false, false, false, false],
               })
               .then(() => {
                 this.$store.commit("SET_USER", {
                   name: this.name,
-                  world: "Inundación",
+                  world: "Flood",
                   level: 1,
                   words: [false, false, false, false, false, false, false],
                 });
                 this.$store.commit(
                   "ACTIVE_SNACK",
-                  `Bienvenido a DissasterCross ${this.name}`
+                  `Welcome to DissasterCross ${this.name}`
                 );
                 this.$router.push("/play");
               })
               .catch(() => {
                 this.$store.commit(
                   "ACTIVE_SNACK",
-                  "Se produjo un error al registrarte, Intente nuevamente"
+                  "There was an error during signup, please try again"
                 );
               });
           }
@@ -86,13 +86,13 @@ export default {
           console.log("Error getting document:", error);
           this.$store.commit(
             "ACTIVE_SNACK",
-            "Se produjo un error al registrarte, Intente nuevamente"
+            "There was an error during signup, please try again"
           );
         });
     },
   },
   created() {
-    this.$store.commit("SET_PAGE_TITLE", "Bienvenido a DisasterCross");
+    this.$store.commit("SET_PAGE_TITLE", "Welcome to DisasterCross");
   },
 };
 </script>

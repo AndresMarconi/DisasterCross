@@ -61,7 +61,7 @@ export default {
     }
   },
   created(){
-    this.$store.commit("SET_PAGE_TITLE", "Panel de Administrador");
+    this.$store.commit("SET_PAGE_TITLE", "Administrator Dashboard");
   }
 }
 </script>
