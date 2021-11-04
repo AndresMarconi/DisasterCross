@@ -59,14 +59,14 @@ export default {
               .set({
                 world: "Flood",
                 level: "1",
-                words: [false, false, false, false, false, false, false],
+                words: [false, false, false, false, false],
               })
               .then(() => {
                 this.$store.commit("SET_USER", {
                   name: this.name,
                   world: "Flood",
                   level: 1,
-                  words: [false, false, false, false, false, false, false],
+                  words: [false, false, false, false, false],
                 });
                 this.$store.commit(
                   "ACTIVE_SNACK",
