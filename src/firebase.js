@@ -10,7 +10,7 @@ const firebaseConfig = {
   storageBucket: process.env.VUE_APP_STORAGEBUCKET,
   messagingSenderId: process.env.VUE_APP_MESSAGINGSENDERID,
   appId: process.env.VUE_APP_APPID,
-  measurementId: process.env.VUE_APP_MEASUREMENTID
+  measurementId: process.env.VUE_APP_MEASUREMENTID,
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -20,14 +20,17 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // collection references
-const topics = db.collection("topics");
+
+let lang = window.localStorage.getItem("language");
+
+let topics;
+
+if (lang == "English") {
+  topics = db.collection("topics");
+} else {
+  topics = db.collection("topics_spanish");
+}
 const users = db.collection("users");
 
-
 // export utils/refs
-export {
-  firebase,
-  db,
-  topics,
-  users
-};
+export { firebase, db, topics, users };

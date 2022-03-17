@@ -30,6 +30,7 @@
       />
       <div class="inputForspace" v-else />
     </v-form>
+    <v-btn :disabled="!fallo" @click='win()' class="ma-3" style="font-size: 1rem"> Mostrar </v-btn>
   </v-container>
 </template>
 
@@ -42,6 +43,8 @@ export default {
       res: [],
       extraClass: "inp-box",
       winLevel: false,
+      fallo: false, 
+      showHelp: true,
     };
   },
   props: {
@@ -151,6 +154,7 @@ export default {
       this.$store.commit("ACTIVE_SNACK", "Failed");
       setTimeout(() => (this.extraClass = "inp-box"), 1000);
       this.$refs["word0"][0].focus();
+      this.fallo = true
     },
     focusToFirst() {
       this.$refs["word0"][0].focus();

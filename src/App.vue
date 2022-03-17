@@ -17,7 +17,8 @@
       <v-spacer aria-hidden="true"></v-spacer>
       <Configuration role="button" />
       <v-btn class="info ma-2" role="button" @click="goBack" text>
-        go back
+        <span v-if="spanish"> Atras </span>
+        <span v-else> Go Back </span>
       </v-btn>
     </v-app-bar>
     <v-main class="myMain">
@@ -56,6 +57,11 @@ import Configuration from "@/components/Configuration.vue";
 export default {
   name: "App",
   components: { SnackBar, Configuration },
+  data() {
+    return {
+      lang: window.localStorage.getItem("language")
+    }
+  },
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -69,6 +75,13 @@ export default {
   },
   updated() {
     a11yChecker();
+  },
+  computed: {
+    // a computed getter
+    spanish: function () {
+      // `this` points to the vm instance
+      return this.lang == 'Spanish'
+    }
   },
 };
 </script>

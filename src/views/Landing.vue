@@ -11,11 +11,14 @@
           <v-text-field
             v-model="name"
             :rules="nameRules"
-            label="Enter a username"
+            label="Username"
             color="white"
             solo
           ></v-text-field>
-          <v-btn :disabled="!valid" color="primary" class="button" @click="play"
+          <v-btn v-if=spanish :disabled="!valid" color="primary" class="button" @click="play"
+            >Iniciar Juego</v-btn
+          >
+          <v-btn v-else :disabled="!valid" color="primary" class="button" @click="play"
             >Start Game</v-btn
           >
         </v-form>
@@ -34,7 +37,9 @@ export default {
     return {
       valid: true,
       name: "",
+      pageTitle: "",
       nameRules: [(v) => !!v || "Please provide a username"],
+      lang: window.localStorage.getItem("language")
     };
   },
   components: {
@@ -91,8 +96,23 @@ export default {
         });
     },
   },
+  computed: {
+    // a computed getter
+    spanish: function () {
+      let inSpanish = this.lang == 'Spanish'
+
+
+      return inSpanish
+    }
+  },
   created() {
-    this.$store.commit("SET_PAGE_TITLE", "Welcome to DisasterCross");
+    if (this.spanish){
+        this.pageTitle = "Bienvenido a DisasterCross"
+      }
+      else{
+        this.pageTitle = "Welcome to DisasterCross"
+      }
+    this.$store.commit("SET_PAGE_TITLE", this.pageTitle);
   },
 };
 </script>

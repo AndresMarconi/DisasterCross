@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       worlds: [],
-      lastFlag: false
+      lastFlag: false,
+      lang: window.localStorage.getItem("language"),
     }
   },
   methods:{
@@ -66,9 +67,24 @@ export default {
       return worlds
     }
   },
+  computed: {
+    // a computed getter
+    spanish: function () {
+      let inSpanish = this.lang == 'Spanish'
+
+
+      return inSpanish
+    }
+  },
   async created(){
+    if (this.spanish){
+        this.gameTitle = "Seleccione un desastre natural"
+      }
+      else{
+        this.gameTitle = "Select a natural disaster"
+    }
     this.$store.commit("ACTIVATE_LOADING")
-    this.$store.commit("SET_PAGE_TITLE", "Select a natural disaster");
+    this.$store.commit("SET_PAGE_TITLE", this.gameTitle);
     try {
       this.worlds = await topics.get()
       .then((querySnapshot) => {
